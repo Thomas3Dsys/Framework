@@ -15,6 +15,7 @@ import { HomePage } from '../pages/HomePage';
 import { LoginPage } from '../pages/LoginPage';
 import { MyAccountPage } from '../pages/MyAccountPage';
 import { TestConfig } from '../test.config';
+import { doesUserExist } from "../utils/database";
 
 let config: TestConfig;
 let homePage: HomePage;
@@ -40,7 +41,13 @@ test.afterEach(async ({ page }) => {
 
 test('User login test @master @sanity @regression',async()=>{
 
-    //Navigate to Login page via Home page
+    if (await doesUserExist(config.email)) {
+      console.log(
+        `User with email ${config.email} exists already. Skipping creation.`,
+      );
+      return;
+    }
+  //Navigate to Login page via Home page
 
     await homePage.clickMyAccount();
     await homePage.clickLogin();
