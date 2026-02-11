@@ -61,10 +61,7 @@ test('execute end-to-end test flow @end-to-end', async ({ page }) => {
 // Function to register a new user account
 async function performRegistration(page: Page): Promise<string> {
     const homePage = new HomePage(page);
-    await homePage.clickMyAccount();       // Click "My Account" link
-    await homePage.clickRegister();        // Click "Register" option
-
-    const registrationPage = new RegistrationPage(page);
+    const registrationPage = await homePage.navigateRegister();
 
     // Fill in random user details
     await registrationPage.setFirstName(RandomDataUtil.getFirstName());
@@ -108,10 +105,8 @@ async function performLogin(page: Page, email: string) {
     await page.goto(config.appUrl);  // Reload home page
 
     const homePage = new HomePage(page);
-    await homePage.clickMyAccount();
-    await homePage.clickLogin();
+    const loginPage = await homePage.navigateLogin();  // Navigate to login page
 
-    const loginPage = new LoginPage(page);
     await loginPage.login(email, "test123");  // Use the registered credentials
 
     // Verify login by checking My Account page

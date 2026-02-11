@@ -49,8 +49,7 @@ test('User login test @master @sanity @regression',async()=>{
     }
   //Navigate to Login page via Home page
 
-    await homePage.clickMyAccount();
-    await homePage.clickLogin();
+    loginPage = await homePage.navigateLogin();
 
     //Enter valid credentials and log in
     await loginPage.setEmail(config.email);

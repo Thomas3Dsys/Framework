@@ -1,0 +1,14 @@
+Creating account with the following details:
+First Name: Elaina
+Last Name: D'Amore
+Email: Kyler_Larson@gmail.com
+Phone Number: 1-966-366-4895 x6476
+Password: fVclDiG_8tyOjEm
+Newsletter: No
+Exception occurred while clicking 'Logout': Error: locator.isVisible: Error: strict mode violation: locator('a:has-text("Logout")') resolved to 2 elements:
+    1) <a href="http://localhost/opencart/upload/index.php?route=account/logout">Logout</a> aka locator('#top-links').getByRole('link', { name: 'Logout' })
+    2) <a class="list-group-item" href="http://localhost/opencart/upload/index.php?route=account/logout">Logout</a> aka locator('#column-right').getByRole('link', { name: 'Logout' })
+
+Call log:
+    - checking visibility of locator('a:has-text("Logout")')
+
