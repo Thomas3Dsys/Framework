@@ -15,7 +15,7 @@ import { HomePage } from "../../pages/HomePage";
 import { LoginPage } from "../../pages/LoginPage";
 import { MyAccountPage } from "../../pages/MyAccountPage";
 import { TestConfig } from "../../test.config";
-import { doesUserExist } from "../../utils/database";
+import { Database } from "../utils/database";
 import { DataProvider } from "../../utils/dataProvider";
 import { RegistrationPage } from "../../pages/RegistrationPage";
 
@@ -32,23 +32,21 @@ async function doUserCreation(
   email: string,
   password: string,
 ): Promise<void> {
-  if (await doesUserExist(email)) {
+  if (await Database.doesUserExist(email)) {
     console.log(`User with email ${email} exists already. Skipping creation.`);
     return;
   }
 
   await page.goto(config.appUrl); //Navigate to application URL
   homePage = new HomePage(page);
-  registrationPage = new RegistrationPage(page);
 
-  await homePage.clickMyAccount();
-  await homePage.clickRegister();
+  registrationPage =await homePage.navigateRegister()
 
   //Fill in registration details with random data
   await registrationPage.setFirstName(config.firstName);
   await registrationPage.setLastName(config.lastName);
   await registrationPage.setEmail(email);
-  await registrationPage.setTelephone(config.phoneNumber);
+  await registrationPage.setTelephone(config.telephone);
 
   await registrationPage.setPassword(password);
   await registrationPage.setConfirmPassword(password);

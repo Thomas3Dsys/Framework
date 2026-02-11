@@ -1,0 +1,8 @@
+Assigning Test Case ID: TC_RF_003 to test: Validate registration with yes to subscription @master @regression
+Creating account with the following details:
+First Name: Velda
+Last Name: Shanahan
+Email: Felipe39@gmail.com
+Phone Number: 897-767-3006 x37524
+Password: QGAc6J8ipGvM5NE
+Newsletter: Yes

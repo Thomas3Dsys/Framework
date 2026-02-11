@@ -10,7 +10,7 @@ export class TestConfig{
     password="test@123"
     firstName="Automation"
     lastName="Testuser"
-phoneNumber="1234567890"
+telephone="1234567890"
 
     //product details
     productName="MacBook"

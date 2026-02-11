@@ -1,0 +1,8 @@
+Assigning Test Case ID: TC_RF_003 to test: Validate Registering an Account by providing all the fields @master @regression
+Creating account with the following details:
+First Name: Mara
+Last Name: Dare
+Email: Josue_Torp@gmail.com
+Phone Number: 425.852.0794
+Password: _txcPuLeulOemAP
+Newsletter: Yes

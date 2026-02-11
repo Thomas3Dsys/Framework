@@ -1,0 +1,7 @@
+Assigning Test Case ID: TC_RF_001 to test: Validate Registering an Account by providing only the Mandatory fields @master @sanity @regression
+Creating accoutn with the following details:
+First Name: Jerome
+Last Name: Bradtke
+Email: Bernie_McCullough42@hotmail.com
+Phone Number: 1-309-594-6421
+Password: G41TcoZCZuueSAo

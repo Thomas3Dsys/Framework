@@ -15,12 +15,13 @@ import { HomePage } from '../pages/HomePage';
 import { LoginPage } from '../pages/LoginPage';
 import { MyAccountPage } from '../pages/MyAccountPage';
 import { TestConfig } from '../test.config';
-import { doesUserExist } from "../utils/database";
+import { Database } from "../utils/database";
 
 let config: TestConfig;
 let homePage: HomePage;
 let loginPage: LoginPage;
 let myAccountPage: MyAccountPage;
+
 
 // This hook runs before each test
 test.beforeEach(async ({ page }) => {
@@ -31,6 +32,7 @@ test.beforeEach(async ({ page }) => {
   homePage = new HomePage(page);
   loginPage = new LoginPage(page);
   myAccountPage = new MyAccountPage(page);
+  
 });
 
 // Optional cleanup after each test
@@ -41,7 +43,7 @@ test.afterEach(async ({ page }) => {
 
 test('User login test @master @sanity @regression',async()=>{
 
-    if (await doesUserExist(config.email)) {
+    if (await Database.doesUserExist(config.email)) {
       console.log(
         `User with email ${config.email} exists already. Skipping creation.`,
       );

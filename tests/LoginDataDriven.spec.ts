@@ -4,7 +4,7 @@ import { MyAccountPage } from '../pages/MyAccountPage';
 import { DataProvider } from '../utils/dataProvider';
 import { TestConfig } from '../test.config';
 import { HomePage } from '../pages/HomePage';
-import { doesUserExist } from '../utils/database';
+import { Database } from "../utils/database";
 
 //Load JSON test data logindata.json
 
@@ -22,7 +22,7 @@ for(const data of jsonTestData)
         if(data.expected.toLowerCase()==='success')
         {
             //query database, exit if user already created.
-            const userExists = await doesUserExist(data.email);
+            const userExists = await Database.doesUserExist(data.email);
 
             if(!userExists)
             {
@@ -70,7 +70,7 @@ for(const data of csvTestData)
         if(data.expected.toLowerCase()==='success')
         {
             //query database, exit if user already created.
-            const userExists = await doesUserExist(data.email);
+            const userExists = await Database.doesUserExist(data.email);
 
             if(!userExists)
             {

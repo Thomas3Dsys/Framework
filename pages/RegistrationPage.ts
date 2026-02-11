@@ -1,9 +1,11 @@
 import { Page, Locator, expect } from "@playwright/test";
 import { Alerts } from "../pages/Widgets/Alerts";
+import { MyAccountRightLinks } from "./Widgets/MyAccountRightLinks";
 
 export class RegistrationPage {
   private readonly page: Page;
   public alerts: Alerts;
+  public myAccountRightMenu: MyAccountRightLinks;
 
   // Locators using CSS selectors
   private readonly textFirstname: Locator;
@@ -18,10 +20,17 @@ export class RegistrationPage {
   private readonly radiobuttonNewsletterYes: Locator;
   private readonly radiobuttonNewsletterNo: Locator;
   private readonly pageHeader: Locator;
+  private readonly textFirstnameLabel: Locator;
+  private readonly textLastnameLabel: Locator;
+  private readonly textEmailLabel: Locator;
+  private readonly textTelephoneLabel: Locator;
+  private readonly textPasswordLabel: Locator;
+  private readonly textConfirmPasswordLabel: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.alerts = new Alerts(page);
+    this.myAccountRightMenu = new MyAccountRightLinks(page);
     // Initialize locators with CSS selectors
     this.textFirstname = page.locator("#input-firstname");
     this.textLastname = page.locator("#input-lastname");
@@ -36,9 +45,49 @@ export class RegistrationPage {
     );
     this.radiobuttonNewsletterYes = page.getByRole("radio", { name: "Yes" });
     this.radiobuttonNewsletterNo = page.getByRole("radio", { name: "No" });
-    //input[name="newsletter"][value="1"][type="radio"]
+
     this.pageHeader = page.getByRole("heading", { name: "Register Account" });
+
+    this.textFirstnameLabel = page.locator("label[for='input-firstname']");
+    this.textLastnameLabel = page.locator("label[for='input-lastname']");
+    this.textEmailLabel = page.locator("label[for='input-email']");
+    this.textTelephoneLabel = page.locator("label[for='input-telephone']");
+    this.textPasswordLabel = page.locator("label[for='input-password']");
+    this.textConfirmPasswordLabel = page.locator("label[for='input-confirm']");
   }
+
+private  async getLabelBeforeDetails(itemLocator: Locator): Promise<{content: string, style: string} | null> {
+
+
+expect(await itemLocator.isVisible()).toBeTruthy();
+
+
+// await this.page.evaluate(() => {
+//     console.log("This will run");
+// });
+
+      const beforeContent = await itemLocator.evaluate((el) => {
+/* 
+      console.log("Evaluating ::before pseudo-element for:", el);
+      console.log("Content");
+      console.log(window.getComputedStyle(el, '::before').getPropertyValue('content'));
+      console.log("Style")
+      console.log(window.getComputedStyle(el, '::before').getPropertyValue('style'));        
+      console.log("cssText")
+      console.log(window.getComputedStyle(el, '::before').getPropertyValue('cssText'));      
+ */
+       const elementDetails = 
+        {
+          content:window.getComputedStyle(el, '::before').getPropertyValue('content').replace(/['"]+/g, '').trim(), // Remove quotes from content value
+          style: window.getComputedStyle(el, '::before').getPropertyValue('color')
+        };
+        return elementDetails;
+       
+    });
+    return beforeContent;
+  }
+
+
 
   /*
    waits for the expected page header to be visible, indicating that the logout page has loaded successfully
@@ -64,12 +113,30 @@ export class RegistrationPage {
     await this.textFirstname.fill(fname);
   }
 
+  async getFirstNamePlaceholder(): Promise<string | null> {
+    return await this.textFirstname.getAttribute("placeholder");
+  }
+
+  async getFirstNameLabelBeforeContents(): Promise<{content: string, style: string} | null> {
+     return await this.getLabelBeforeDetails(this.textFirstnameLabel);
+  }
+
   /**
    * Sets the last name in the registration form
    * @param lname - Last name to enter
    */
   async setLastName(lname: string): Promise<void> {
     await this.textLastname.fill(lname);
+  }
+
+
+  
+  async getLastNameLabelBeforeContents(): Promise<{content: string, style: string} | null> {
+     return await this.getLabelBeforeDetails(this.textLastnameLabel);
+  }
+
+  async getLastNamePlaceholder(): Promise<string | null> {
+    return await this.textLastname.getAttribute("placeholder");
   }
 
   /**
@@ -80,6 +147,13 @@ export class RegistrationPage {
     await this.textEmail.fill(email);
   }
 
+  async getEmailPlaceholder(): Promise<string | null> {
+    return await this.textEmail.getAttribute("placeholder");
+  }
+async getEmailLabelBeforeContents(): Promise<{content: string, style: string} | null> {
+     return await this.getLabelBeforeDetails(this.textEmailLabel);
+  } 
+
   /**
    * Sets the telephone number in the registration form
    * @param tel - Telephone number to enter
@@ -87,6 +161,14 @@ export class RegistrationPage {
   async setTelephone(tel: string): Promise<void> {
     await this.textTelephone.fill(tel);
   }
+
+  async getTelephonePlaceholder(): Promise<string | null> {
+    return await this.textTelephone.getAttribute("placeholder");
+  }
+
+  async getTelephoneLabelBeforeContents(): Promise<{content: string, style: string} | null> {
+     return await this.getLabelBeforeDetails(this.textTelephoneLabel);
+  } 
 
   /**
    * Sets the password in the registration form
@@ -96,6 +178,14 @@ export class RegistrationPage {
     await this.textPassword.fill(pwd);
   }
 
+  async getPasswordPlaceholder(): Promise<string | null> {
+    return await this.textPassword.getAttribute("placeholder");
+  }
+
+  async getPasswordLabelBeforeContents(): Promise<{content: string, style: string} | null> {
+     return await this.getLabelBeforeDetails(this.textPasswordLabel);
+  }
+
   /**
    * Sets the confirm password in the registration form
    * @param pwd - Password to confirm
@@ -103,6 +193,14 @@ export class RegistrationPage {
   async setConfirmPassword(pwd: string): Promise<void> {
     await this.textConfirmPassword.fill(pwd);
   }
+
+  async getConfirmPasswordPlaceholder(): Promise<string | null> {
+    return await this.textConfirmPassword.getAttribute("placeholder");
+  }
+
+  async getConfirmPasswordLabelBeforeContents(): Promise<{content: string, style: string} | null> {
+     return await this.getLabelBeforeDetails(this.textConfirmPasswordLabel);
+  } 
 
   /**
    * Checks the privacy policy checkbox

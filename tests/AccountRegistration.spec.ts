@@ -20,6 +20,7 @@ import { MyAccountPage } from "../pages/MyAccountPage";
 //import { NewsletterSubscriptionPage } from "../pages/MyAccount/NewsletterSubscription";
 import { LoginPage } from "../pages/LoginPage";
 import { LogoutPage } from "../pages/LogoutPage";
+import { setTestCaseId } from "../utils/testcaseid";
 
 let homePage: HomePage;
 let registrationPage: RegistrationPage;
@@ -41,6 +42,9 @@ const inputValidationMessagePassword =
   "Password must be between 4 and 20 characters!";
 const inputValidationMessageConfirmPassword =
   "Password confirmation does not match password!";
+const warningEmailExists = "Warning: E-Mail Address is already registered!";
+
+
 
 test.beforeEach(async ({ page }) => {
   config = new TestConfig();
@@ -58,7 +62,9 @@ test.afterEach(async ({ page }) => {
   await page.close();
 });
 
-test("Validate Registering an Account by providing only the Mandatory fields @master @sanity @regression", async () => {
+test("Validate Registering an Account by providing only the Mandatory fields @master @sanity @regression", async ({}, testInfo) => {
+  setTestCaseId(testInfo, "TC_RF_001");
+
   //Go to 'My Account' and click 'Register'
 
   registrationPage = await homePage.navigateRegister();
@@ -90,7 +96,8 @@ test("Validate Registering an Account by providing only the Mandatory fields @ma
   expect(confirmationMsg).toContain("Your Account Has Been Created!");
 });
 
-test("Validate Registering an Account by providing all the fields @master @regression", async () => {
+test("Validate Registering an Account by providing all the fields @master @regression", async ({}, testInfo) => {
+  setTestCaseId(testInfo, "TC_RF_003");
   //Go to 'My Account' and click 'Register'
 
   registrationPage = await homePage.navigateRegister();
@@ -123,7 +130,8 @@ test("Validate Registering an Account by providing all the fields @master @regre
   expect(confirmationMsg).toContain("Your Account Has Been Created!");
 });
 
-test("Validate registration with yes to subscription @master @regression", async () => {
+test("Validate registration with yes to subscription @master @regression", async ({}, testInfo) => {
+  setTestCaseId(testInfo, "TC_RF_003");
   //Go to 'My Account' and click 'Register'
 
   registrationPage = await homePage.navigateRegister();
@@ -156,7 +164,8 @@ test("Validate registration with yes to subscription @master @regression", async
   expect(confirmationMsg).toContain("Your Account Has Been Created!");
 });
 
-test("Validate newsletter is subscribed after registration @master @regression", async () => {
+test("Validate newsletter is subscribed after registration @master @regression", async ({}, testInfo) => {
+  setTestCaseId(testInfo, "TC_RF_005");
   //Go to 'My Account' and click 'Register'
 
   registrationPage = await homePage.navigateRegister();
@@ -198,7 +207,8 @@ test("Validate newsletter is subscribed after registration @master @regression",
   expect(isSubscribed).toBeTruthy();
 });
 
-test("Validate newsletter is not subscribed after registration @master @regression", async () => {
+test("Validate newsletter is not subscribed after registration @master @regression", async ({}, testInfo) => {
+  setTestCaseId(testInfo, "TC_RF_006");
   //Go to 'My Account' and click 'Register'
 
   registrationPage = await homePage.navigateRegister();
@@ -240,7 +250,8 @@ test("Validate newsletter is not subscribed after registration @master @regressi
   expect(isSubscribed).toBeFalsy();
 });
 
-test("Validate messages on submit with no informaiton entered @negative @master @regression", async () => {
+test("Validate messages on submit with no informaiton entered @negative @master @regression", async ({}, testInfo) => {
+  setTestCaseId(testInfo, "TC_RF_004");
   //Go to 'My Account' and click 'Register'
 
   registrationPage = await homePage.navigateRegister();
@@ -264,15 +275,18 @@ test("Validate messages on submit with no informaiton entered @negative @master 
   expect(
     registrationPage.hasInputAlertMessage(inputValidationMessagePassword),
   ).toBeTruthy();
-  //expect(registrationPage.hasInputAlertMessage(inputValidationMessageConfirmPassword)).toBeTruthy();
 });
 
-test("Navigate to RegistrationPage @master @sanity @regression", async () => {
+test("Navigate to RegistrationPage @master @sanity @regression", async ({}, testInfo) => {
+  setTestCaseId(testInfo, "TC_RF_007");
   registrationPage = await homePage.navigateRegister();
   expect(registrationPage.hasExpectedPageHeader()).toBeTruthy();
 
   loginPage = await homePage.navigateLogin();
   registrationPage = await loginPage.newCustomerClickContinue();
+  expect(await registrationPage.hasExpectedPageHeader()).toBeTruthy();
+
+  registrationPage = await registrationPage.myAccountRightMenu.clickRegister();
   expect(await registrationPage.hasExpectedPageHeader()).toBeTruthy();
 });
 
@@ -290,3 +304,109 @@ test("Navigate to RegistrationPage @master @sanity @regression", async () => {
   );
 });
  *  */
+
+test("Validate Registering an Account by entering different passwords into 'Password' and 'Password Confirm' fields @master @sanity @regression", async ({}, testInfo) => {
+  setTestCaseId(testInfo, "TC_RF_008");
+  registrationPage = await homePage.navigateRegister();
+  const password = RandomDataUtil.getPassword();
+
+  await registrationPage.setFirstName(RandomDataUtil.getFirstName());
+  await registrationPage.setLastName(RandomDataUtil.getlastName());
+  await registrationPage.setEmail(RandomDataUtil.getEmail());
+  await registrationPage.setTelephone(RandomDataUtil.getPhoneNumber());
+
+  await registrationPage.setPassword(password);
+  await registrationPage.setConfirmPassword(password + "123"); //Intentionally setting different password
+
+  await registrationPage.setPrivacyPolicy();
+  await registrationPage.clickContinue();
+  expect(registrationPage.hasInputAlertMessage(inputValidationMessageConfirmPassword)).toBeTruthy();
+});
+
+test("Validate Registering an Account by providing the existing account details (i.e. existing email address) @master @sanity @regression", async ({}, testInfo) => {
+  setTestCaseId(testInfo, "TC_RF_009");
+  registrationPage = await homePage.navigateRegister();
+  await registrationPage.setFirstName(config.firstName);
+  await registrationPage.setLastName(config.lastName);
+  await registrationPage.setEmail(config.email);
+  await registrationPage.setTelephone(config.telephone);
+
+  await registrationPage.setPassword(config.password);
+  await registrationPage.setConfirmPassword(config.password + "123"); //Intentionally setting different password
+
+  await registrationPage.setPrivacyPolicy();
+  await registrationPage.clickContinue();
+  const alertMessage = await registrationPage.alerts.getAlertDangerMessage() || "";
+  expect(alertMessage).toContain(warningEmailExists);
+
+});
+
+test("Validate Registering an Account by providing an invalid email address into the E-Mail field @master @sanity @regression", async ({}, testInfo) => {
+  setTestCaseId(testInfo, "TC_RF_010");
+    registrationPage = await homePage.navigateRegister();
+const password = RandomDataUtil.getPassword();
+
+  await registrationPage.setFirstName(RandomDataUtil.getFirstName());
+  await registrationPage.setLastName(RandomDataUtil.getlastName());
+  await registrationPage.setEmail("asdf123@f");
+  await registrationPage.setTelephone(RandomDataUtil.getPhoneNumber());
+
+  await registrationPage.setPassword(password);
+  await registrationPage.setConfirmPassword(password); //Intentionally setting different password
+
+  await registrationPage.setPrivacyPolicy();
+  await registrationPage.clickContinue();
+  expect(registrationPage.hasInputAlertMessage(inputValidationMessageEmail)).toBeTruthy();
+
+
+
+});
+
+test("Validate Registering an Account by providing an invalid phone number @master @sanity @regression", async ({}, testInfo) => {
+  setTestCaseId(testInfo, "TC_RF_011");
+  registrationPage = await homePage.navigateRegister();
+  const password = RandomDataUtil.getPassword();
+
+  await registrationPage.setFirstName(RandomDataUtil.getFirstName());
+  await registrationPage.setLastName(RandomDataUtil.getlastName());
+  await registrationPage.setEmail(RandomDataUtil.getEmail());
+  await registrationPage.setTelephone("12");
+
+  await registrationPage.setPassword(password);
+  await registrationPage.setConfirmPassword(password); //Intentionally setting different password
+
+  await registrationPage.setPrivacyPolicy();
+  await registrationPage.clickContinue();
+  expect(registrationPage.hasInputAlertMessage(inputValidationMessageTelephone)).toBeTruthy();
+
+  await registrationPage.setTelephone("111");
+  await registrationPage.clickContinue();
+  expect(registrationPage.hasInputAlertMessage(inputValidationMessageTelephone)).toBeTruthy();
+
+  await registrationPage.setTelephone("abcde");
+  await registrationPage.clickContinue();
+  expect(registrationPage.hasInputAlertMessage(inputValidationMessageTelephone)).toBeTruthy();
+
+
+});
+
+
+
+test.skip("Validate Registering an Account by using the Keyboard keys @master @sanity @regression", async ({}, testInfo) => {
+  setTestCaseId(testInfo, "TC_RF_012");
+  
+
+
+});
+
+test("Validate all the fields in the Register Account page have the proper placeholders @master @sanity @regression", async ({}, testInfo) => {
+  setTestCaseId(testInfo, "TC_RF_013");
+  registrationPage = await homePage.navigateRegister();
+
+  expect(await registrationPage.getFirstNamePlaceholder()).toBe("First Name");
+  expect(await registrationPage.getLastNamePlaceholder()).toBe("Last Name");
+  expect(await registrationPage.getEmailPlaceholder()).toBe("E-Mail");
+  expect(await registrationPage.getTelephonePlaceholder()).toBe("Telephone");
+  expect(await registrationPage.getPasswordPlaceholder()).toBe("Password");
+  expect(await registrationPage.getConfirmPasswordPlaceholder()).toBe("Password Confirm");
+});
