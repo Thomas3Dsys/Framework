@@ -1,8 +1,0 @@
-Assigning Test Case ID: TC_RF_005 to test: Validate newsletter is subscribed after registration @master @regression
-Creating account with the following details:
-First Name: Kraig
-Last Name: Morissette
-Email: Margarett_Roob74@gmail.com
-Phone Number: (275) 647-6418 x0283
-Password: 7CIQQ_5DKcg6M9B
-Newsletter: Yes

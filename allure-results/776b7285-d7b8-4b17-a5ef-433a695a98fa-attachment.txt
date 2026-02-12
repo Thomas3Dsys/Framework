@@ -1,1 +1,0 @@
-Assigning Test Case ID:  TC_LF_005  to test: Validate logging into the Application without providing any credentials @master @regression

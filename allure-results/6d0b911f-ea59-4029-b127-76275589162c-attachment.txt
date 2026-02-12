@@ -1,1 +1,0 @@
-Assigning Test Case ID: TC_LF_023 [3/3] to test: Validate the Login page functionality in multiple browsers: webkit @sanity @master @regression

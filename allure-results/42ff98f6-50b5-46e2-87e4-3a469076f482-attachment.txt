@@ -1,7 +1,0 @@
-Creating account with the following details:
-First Name: Amparo
-Last Name: Heller
-Email: Florence.Kub@gmail.com
-Phone Number: 1-793-988-1963
-Password: BuM3gN8x7CswrOU
-Newsletter: Yes

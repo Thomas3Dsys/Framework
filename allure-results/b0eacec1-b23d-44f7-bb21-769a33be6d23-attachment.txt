@@ -1,5 +1,0 @@
-Assigning Test Case ID:  TC_LF_015  to test: Validate the Password is not visible in the Page Source @master @sanity @regression
-Email contents:
-[ '' ]
-Password value:
-test@123

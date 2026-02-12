@@ -1,1 +1,0 @@
-Assigning Test Case ID: TC_LF_007 to test: Validate logging into the Application using Keyboard keys (Tab and Enter) @master @sanity @regression

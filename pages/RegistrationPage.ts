@@ -1,10 +1,11 @@
 import { Page, Locator, expect } from "@playwright/test";
-import { Alerts } from "../pages/Widgets/Alerts";
 import { MyAccountRightLinks } from "./Widgets/MyAccountRightLinks";
+import { MyAccountPage } from "./MyAccountPage";
+import { TopMenuSection } from "./Widgets/TopMenuSection";
 
 export class RegistrationPage {
   private readonly page: Page;
-  public alerts: Alerts;
+  public readonly topMenuSection: TopMenuSection;
   public myAccountRightMenu: MyAccountRightLinks;
 
   // Locators using CSS selectors
@@ -16,6 +17,7 @@ export class RegistrationPage {
   private readonly textConfirmPassword: Locator;
   private readonly checkboxPolicy: Locator;
   private readonly buttonContinue: Locator;
+  private readonly linkContinue: Locator;
   private readonly messageConfirmation: Locator;
   private readonly radiobuttonNewsletterYes: Locator;
   private readonly radiobuttonNewsletterNo: Locator;
@@ -29,9 +31,10 @@ export class RegistrationPage {
 
   constructor(page: Page) {
     this.page = page;
-    this.alerts = new Alerts(page);
-    this.myAccountRightMenu = new MyAccountRightLinks(page);
-    // Initialize locators with CSS selectors
+    this.topMenuSection = new TopMenuSection(this.page);
+    this.myAccountRightMenu = new MyAccountRightLinks(this.page);
+
+    // Initialize locators with selectors
     this.textFirstname = page.locator("#input-firstname");
     this.textLastname = page.locator("#input-lastname");
     this.textEmail = page.locator("#input-email");
@@ -40,6 +43,8 @@ export class RegistrationPage {
     this.textConfirmPassword = page.locator("#input-confirm");
     this.checkboxPolicy = page.locator('input[name="agree"]');
     this.buttonContinue = page.locator('input[value="Continue"]');
+    this.linkContinue = page.locator('a:has-text("Continue")');
+
     this.messageConfirmation = page.locator(
       'h1:has-text("Your Account Has Been Created!")',
     );
@@ -56,25 +61,27 @@ export class RegistrationPage {
     this.textConfirmPasswordLabel = page.locator("label[for='input-confirm']");
   }
 
-private  async getLabelBeforeDetails(itemLocator: Locator): Promise<{content: string, style: string} | null> {
+  private async getLabelBeforeDetails(
+    itemLocator: Locator,
+  ): Promise<{ content: string; style: string } | null> {
+    //todo: change from expect to some other way to check... throw exception...
+    expect(await itemLocator.isVisible()).toBeTruthy();
 
-//todo: change from expect to some other way to check... throw exception...
-expect(await itemLocator.isVisible()).toBeTruthy();
-
-      const beforeContent = await itemLocator.evaluate((el) => {
-
-       const elementDetails = 
-        {
-          content:window.getComputedStyle(el, '::before').getPropertyValue('content').replace(/['"]+/g, '').trim(), // Remove quotes from content value
-          style: window.getComputedStyle(el, '::before').getPropertyValue('color')
-        };
-        return elementDetails;
-       
+    const beforeContent = await itemLocator.evaluate((el) => {
+      const elementDetails = {
+        content: window
+          .getComputedStyle(el, "::before")
+          .getPropertyValue("content")
+          .replace(/['"]+/g, "")
+          .trim(), // Remove quotes from content value
+        style: window
+          .getComputedStyle(el, "::before")
+          .getPropertyValue("color"),
+      };
+      return elementDetails;
     });
     return beforeContent;
   }
-
-
 
   /*
    waits for the expected page header to be visible, indicating that the logout page has loaded successfully
@@ -104,8 +111,11 @@ expect(await itemLocator.isVisible()).toBeTruthy();
     return await this.textFirstname.getAttribute("placeholder");
   }
 
-  async getFirstNameLabelBeforeContents(): Promise<{content: string, style: string} | null> {
-     return await this.getLabelBeforeDetails(this.textFirstnameLabel);
+  async getFirstNameLabelBeforeContents(): Promise<{
+    content: string;
+    style: string;
+  } | null> {
+    return await this.getLabelBeforeDetails(this.textFirstnameLabel);
   }
 
   /**
@@ -116,10 +126,11 @@ expect(await itemLocator.isVisible()).toBeTruthy();
     await this.textLastname.fill(lname);
   }
 
-
-  
-  async getLastNameLabelBeforeContents(): Promise<{content: string, style: string} | null> {
-     return await this.getLabelBeforeDetails(this.textLastnameLabel);
+  async getLastNameLabelBeforeContents(): Promise<{
+    content: string;
+    style: string;
+  } | null> {
+    return await this.getLabelBeforeDetails(this.textLastnameLabel);
   }
 
   async getLastNamePlaceholder(): Promise<string | null> {
@@ -137,9 +148,12 @@ expect(await itemLocator.isVisible()).toBeTruthy();
   async getEmailPlaceholder(): Promise<string | null> {
     return await this.textEmail.getAttribute("placeholder");
   }
-async getEmailLabelBeforeContents(): Promise<{content: string, style: string} | null> {
-     return await this.getLabelBeforeDetails(this.textEmailLabel);
-  } 
+  async getEmailLabelBeforeContents(): Promise<{
+    content: string;
+    style: string;
+  } | null> {
+    return await this.getLabelBeforeDetails(this.textEmailLabel);
+  }
 
   /**
    * Sets the telephone number in the registration form
@@ -153,9 +167,12 @@ async getEmailLabelBeforeContents(): Promise<{content: string, style: string} | 
     return await this.textTelephone.getAttribute("placeholder");
   }
 
-  async getTelephoneLabelBeforeContents(): Promise<{content: string, style: string} | null> {
-     return await this.getLabelBeforeDetails(this.textTelephoneLabel);
-  } 
+  async getTelephoneLabelBeforeContents(): Promise<{
+    content: string;
+    style: string;
+  } | null> {
+    return await this.getLabelBeforeDetails(this.textTelephoneLabel);
+  }
 
   /**
    * Sets the password in the registration form
@@ -169,8 +186,11 @@ async getEmailLabelBeforeContents(): Promise<{content: string, style: string} | 
     return await this.textPassword.getAttribute("placeholder");
   }
 
-  async getPasswordLabelBeforeContents(): Promise<{content: string, style: string} | null> {
-     return await this.getLabelBeforeDetails(this.textPasswordLabel);
+  async getPasswordLabelBeforeContents(): Promise<{
+    content: string;
+    style: string;
+  } | null> {
+    return await this.getLabelBeforeDetails(this.textPasswordLabel);
   }
 
   /**
@@ -185,9 +205,12 @@ async getEmailLabelBeforeContents(): Promise<{content: string, style: string} | 
     return await this.textConfirmPassword.getAttribute("placeholder");
   }
 
-  async getConfirmPasswordLabelBeforeContents(): Promise<{content: string, style: string} | null> {
-     return await this.getLabelBeforeDetails(this.textConfirmPasswordLabel);
-  } 
+  async getConfirmPasswordLabelBeforeContents(): Promise<{
+    content: string;
+    style: string;
+  } | null> {
+    return await this.getLabelBeforeDetails(this.textConfirmPasswordLabel);
+  }
 
   /**
    * Checks the privacy policy checkbox
@@ -210,7 +233,17 @@ async getEmailLabelBeforeContents(): Promise<{content: string, style: string} | 
   /**
    * Clicks the Continue button
    */
-  async clickContinue(): Promise<void> {
+  async clickContinueAccountCreated(): Promise<MyAccountPage> {
+    await this.linkContinue.click();
+    const myAccountPage = new MyAccountPage(this.page);
+    await myAccountPage.waitForPageHeader();
+    return myAccountPage;
+  }
+
+  /**
+   * Clicks the Continue button
+   */
+  async clickContinueRegistration(): Promise<void> {
     await this.buttonContinue.click();
   }
 
@@ -247,8 +280,8 @@ async getEmailLabelBeforeContents(): Promise<{content: string, style: string} | 
 
     await this.setPrivacyPolicy();
 
-    await this.clickContinue();
-    await expect(this.messageConfirmation).toBeVisible();
+    await this.clickContinueRegistration();
+    await this.messageConfirmation.waitFor({ state: "visible", timeout: 5000 });
   }
 
   /* 

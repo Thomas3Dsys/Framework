@@ -1,1 +1,0 @@
-Assigning Test Case ID: TC_RF_010 to test: Validate Registering an Account by providing an invalid email address into the E-Mail field @master @sanity @regression

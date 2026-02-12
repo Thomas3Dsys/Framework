@@ -1,11 +1,14 @@
 import { Page, Locator, expect } from "@playwright/test";
 import { LogoutPage } from "./LogoutPage"; // Import LogoutPage if needed
 import { Alerts } from "../pages/Widgets/Alerts";
-import { NewsletterSubscriptionPage } from "./MyAccount/NewsletterSubscription";
+import { NewsletterSubscriptionPage } from "./MyAccount/NewsletterSubscriptionPage";
+import { ChangePasswordPage } from "../pages/MyAccount/ChangePasswordPage";
+
+import { TopMenuSection } from "./Widgets/TopMenuSection";
 
 export class MyAccountPage {
   private readonly page: Page;
-
+  public readonly topMenuSection: TopMenuSection;
   // Locators using CSS selectors
   private readonly linkLogout: Locator;
   private readonly linkEditAccountInformation: Locator;
@@ -26,7 +29,8 @@ export class MyAccountPage {
 
   constructor(page: Page) {
     this.page = page;
-
+    this.topMenuSection = new TopMenuSection(this.page);
+    
     // Initialize locators with CSS selectors
     this.pageHeader = page.locator("//h2[contains(text(), 'My Account')]");
     this.linkLogout = page.locator("text='Logout'").nth(1);
@@ -65,7 +69,6 @@ export class MyAccountPage {
     this.linkNewsletter = this.page.locator(
       "a:has-text('Subscribe / unsubscribe to newsletter')",
     );
-    
 
     this.alerts = new Alerts(page);
   }
@@ -127,8 +130,11 @@ export class MyAccountPage {
   /**
    * Clicks on Change Password link
    */
-  async clickChangePassword(): Promise<void> {
+  async clickChangePassword(): Promise<ChangePasswordPage> {
     await this.linkChangePassword.click();
+    const changePasswordPage = new ChangePasswordPage(this.page);
+    changePasswordPage.waitForPageHeader();
+    return changePasswordPage;
   }
 
   /**

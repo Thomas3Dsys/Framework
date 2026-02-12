@@ -23,9 +23,8 @@ test("Validate all the mandatory fields in the Register Account page are marked 
   //  element which is not working in the default context due to some CSP policy of the application.
   await newPage.goto(config.appUrl); //Navigate to application URL
   homePage = new HomePage(newPage);
-  registrationPage = new RegistrationPage(newPage);
-
-  registrationPage = await homePage.navigateRegister();
+  
+  registrationPage = await homePage.topMenuSection.myAccountMenu.navigateRegister();
 
   const firstNameLabelBeforeDetails =
     await registrationPage.getFirstNameLabelBeforeContents();

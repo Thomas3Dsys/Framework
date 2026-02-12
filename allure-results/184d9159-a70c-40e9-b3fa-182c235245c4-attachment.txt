@@ -1,1 +1,0 @@
-Assigning Test Case ID: TC_RF_009 to test: Validate Registering an Account by providing the existing account details (i.e. existing email address) @master @sanity @regression

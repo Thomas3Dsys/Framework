@@ -1,1 +1,0 @@
-Assigning Test Case ID: TC_RF_014 to test: Validate all the mandatory fields in the Register Account page are marked with red color * symbol @master @sanity @regression

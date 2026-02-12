@@ -1,1 +1,0 @@
-Assigning Test Case ID: TC_LF_009 to test: Validate Logging into the Application and browsing back using Browser back button  @master @sanity @regression

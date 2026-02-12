@@ -11,7 +11,7 @@ export default defineConfig({
 
   reporter: [
     ['html'],
-    ['allure-playwright'],
+    //['allure-playwright'],
     //['dot'],
     ['list']
   ],

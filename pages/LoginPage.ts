@@ -3,10 +3,14 @@ import { RegistrationPage } from "./RegistrationPage";
 import { MyAccountPage } from "./MyAccountPage";
 import { ForgottenPasswordPage } from "./ForgottenPasswordPage";
 import { Alerts } from "../pages/Widgets/Alerts";
+import { MyAccountMenu } from "./Widgets/MyAccountMenu";
+
 
 export class LoginPage {
   private readonly page: Page;
   public alerts: Alerts;
+  private readonly myAccountMenu: MyAccountMenu;
+   
   // Locators
   private readonly textEmailAddress: Locator;
   private readonly textPassword: Locator;
@@ -16,10 +20,12 @@ export class LoginPage {
   private readonly newCustomerSectionHeader: Locator;
   private readonly returningCustomerSectionHeader: Locator;
   private readonly linkForgottenPassword: Locator;
+  
 
   constructor(page: Page) {
     this.page = page;
     this.alerts = new Alerts(page);
+    this.myAccountMenu = new MyAccountMenu(this.page);
     // Initialize locators with CSS selectors
     this.textEmailAddress = page.locator("#input-email");
     this.textPassword = page.locator("#input-password");
@@ -140,4 +146,13 @@ export class LoginPage {
       throw error; // Re-throw the error to fail the test
     }
   }
+
+  async getEmailPlaceholder(): Promise<string | null> {
+    return await this.textEmailAddress.getAttribute("placeholder");
+  }
+    async getPasswordPlaceholder(): Promise<string | null> {
+    return await this.textPassword.getAttribute("placeholder");
+  }
+
+
 }

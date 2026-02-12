@@ -26,6 +26,11 @@ export interface ICustomer extends RowDataPacket {
   date_added: Date;
 }
 
+ interface ICustomerID extends RowDataPacket {
+  customer_id: number;
+  email: string;
+}
+
 
 export class Database {
 
@@ -33,10 +38,10 @@ export class Database {
     const query = `SELECT customer_id,email FROM oc_customer where email = '${email}'`;
 
     try {
-      const [users] = await pool.query<ICustomer[]>(query);
+      const [users] = await pool.query<ICustomerID[]>(query);
       return users.length > 0; // Return true if user exists, false otherwise
     } catch (error) {
-      console.log(`user not found, query '${query}' returned no results.`);
+      console.log(`Error executing query: '${query}'.`);
       throw error;
     }
   }
@@ -45,9 +50,11 @@ export class Database {
     const query = `SELECT * FROM oc_customer where email = '${email}'`;
     try {
       const [users] = await pool.query<ICustomer[]>(query);
+      
+      
       return users[0];
     } catch (error) {
-      console.log(`user not found, query '${query}' returned no results.`);
+        console.log(`Error executing query: '${query}'.`);
       throw error;
     }
   }

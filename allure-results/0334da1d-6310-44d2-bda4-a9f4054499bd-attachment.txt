@@ -1,1 +1,0 @@
-Assigning Test Case ID: TC_RF_015 to test: Validate the details that are provided while Registering an Account are stored in the Database  @master @sanity @regression

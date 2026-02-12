@@ -52,7 +52,7 @@ async function doUserCreation(
   await registrationPage.setConfirmPassword(password);
 
   await registrationPage.setPrivacyPolicy();
-  await registrationPage.clickContinue();
+  await registrationPage.clickContinueRegistration();
 
   //Validate the confirmation message
   const confirmationMsg = await registrationPage.getConfirmationMsg();

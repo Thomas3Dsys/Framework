@@ -1,6 +1,0 @@
-Creating accoutn with the following details:
-First Name: Joe
-Last Name: Dooley
-Email: Kip_Franey@gmail.com
-Phone Number: 383.491.9539 x424
-Password: gdQnQYV5cJt0Wo6

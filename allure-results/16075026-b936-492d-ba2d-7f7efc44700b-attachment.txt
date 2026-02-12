@@ -1,1 +1,0 @@
-Assigning Test Case ID:  TC_LF_011  to test: Validate logging into the Application using inactive credentials @master @regression

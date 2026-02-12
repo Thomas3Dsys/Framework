@@ -1,8 +1,0 @@
-Assigning Test Case ID: TC_RF_006 to test: Validate newsletter is not subscribed after registration @master @regression
-Creating account with the following details:
-First Name: Sigrid
-Last Name: Reichel
-Email: Jerome28@hotmail.com
-Phone Number: 345-492-3993 x2245
-Password: WPUJ9qZD7B78sp5
-Newsletter: No

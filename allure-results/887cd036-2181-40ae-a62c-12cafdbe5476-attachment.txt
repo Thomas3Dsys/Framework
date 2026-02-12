@@ -1,1 +1,0 @@
-Assigning Test Case ID: TC_LF_020 to test: Validate the different ways of navigating to the Login page @master  @regression

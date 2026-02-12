@@ -1,9 +1,0 @@
-Assigning Test Case ID: TC_LF_006 to test: Validate Forgotten Password link is available in the Login page and is working @master @sanity @regression
-user not found, query 'SELECT customer_id,email FROM oc_customer where email = 'thomas3d@gmail.com'' returned no results.
-Exception occurred while clicking 'Login': Error: locator.click: Target page, context or browser has been closed
-Call log:
-  - waiting for locator('div#top-links ul.dropdown-menu li a:has-text("Login")')
-    - locator resolved to <a href="http://localhost/opencart/upload/index.php?route=account/login">Login</a>
-  - attempting click action
-    - waiting for element to be visible, enabled and stable
-

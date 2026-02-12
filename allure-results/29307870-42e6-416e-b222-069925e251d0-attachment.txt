@@ -1,3 +1,0 @@
-Assigning Test Case ID:  TC_LF_015  to test: Validate the Password is not visible in the Page Source @master @regression
-Password outerHTML:
-<input type="password" name="password" value="" placeholder="Password" id="input-password" class="form-control">

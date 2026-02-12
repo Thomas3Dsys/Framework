@@ -1,8 +1,0 @@
-Creating account with the following details:
-First Name: Karelle
-Last Name: Kovacek-Hane
-Email: Dale85@gmail.com
-Phone Number: (720) 813-9712 x832
-Password: 2IhIJ4vvLAoz4SX
-Newsletter: Yes
-Success message after registration: null

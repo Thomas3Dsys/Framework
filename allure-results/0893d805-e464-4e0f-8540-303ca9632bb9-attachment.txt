@@ -1,1 +1,0 @@
-Assigning Test Case ID: TC_LF_017 to test: Validate Logging into the Application, closing the Browser without loggingout and opening the application in the Browser again @master  @regression

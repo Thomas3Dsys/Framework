@@ -1,1 +1,0 @@
-Assigning Test Case ID: TC_RF_01# to test:  symbol @master @sanity @regression

@@ -1,7 +1,0 @@
-Creating account with the following details:
-First Name: Marielle
-Last Name: Boyer
-Email: Sierra.Purdy@hotmail.com
-Phone Number: 1-325-705-2080
-Password: scKeBEFvgFdeIUy
-Newsletter: Yes

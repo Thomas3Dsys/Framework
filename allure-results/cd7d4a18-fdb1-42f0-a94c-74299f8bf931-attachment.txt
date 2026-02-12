@@ -1,1 +1,0 @@
-Assigning Test Case ID: TC_RF_027 [2/3] to test: Validate Registration in multiple browsers: webkit @sanity @master @regression

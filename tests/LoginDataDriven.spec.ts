@@ -34,7 +34,7 @@ for(const data of jsonTestData)
         await page.goto(config.appUrl);    // getting appURL from test.config.ts file
 
         const homePage = new HomePage(page);
-        const loginPage = await homePage.navigateLogin();
+        const loginPage = await homePage.topMenuSection.myAccountMenu.navigateLogin();
         await loginPage.login(data.email, data.password);
 
         if(data.expected.toLowerCase()==='success')
@@ -83,7 +83,7 @@ for(const data of csvTestData)
         await page.goto(config.appUrl);    // getting appURL from test.config.ts file
 
         const homePage = new HomePage(page);
-        const loginPage = await homePage.navigateLogin();
+        const loginPage = await homePage.topMenuSection.myAccountMenu.navigateLogin();
         await loginPage.login(data.email, data.password);
 
         if(data.expected.toLowerCase()==='success')

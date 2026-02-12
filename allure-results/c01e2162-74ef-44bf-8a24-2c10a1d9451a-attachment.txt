@@ -1,1 +1,0 @@
-Assigning Test Case ID: TC_RF_007 to test: Navigate to RegistrationPage @master @sanity @regression

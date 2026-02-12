@@ -1,16 +1,18 @@
 import { Page, Locator } from '@playwright/test';
 import { CheckoutPage } from './CheckoutPage'; // Import CheckoutPage if needed
+import { TopMenuSection } from "./Widgets/TopMenuSection";
 
 export class ShoppingCartPage {
     private readonly page: Page;
-    
+    private readonly topMenuSection : TopMenuSection;
+
     // Locators using CSS selectors
     private readonly lblTotalPrice: Locator;
     private readonly btnCheckout: Locator;
 
     constructor(page: Page) {
         this.page = page;
-        
+        this.topMenuSection = new TopMenuSection(this.page);
         // Initialize locators with CSS selectors
         this.lblTotalPrice = page.locator("//*[@id='content']/div[2]/div/table//strong[text()='Total:']//following::td");
         this.btnCheckout = page.locator("a[class='btn btn-primary']");

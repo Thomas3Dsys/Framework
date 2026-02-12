@@ -1,1 +1,0 @@
-Assigning Test Case ID: TC_LF_022 to test: Validate the UI of the Login page @master  @regression

@@ -1,1 +1,0 @@
-Assigning Test Case ID: TC_RF_008 to test: Validate Registering an Account by entering different passwords into 'Password' and 'Password Confirm' fields @master @sanity @regression

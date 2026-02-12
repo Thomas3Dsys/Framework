@@ -31,7 +31,7 @@ test.afterEach(async ({ page }) => {
 
 test('User logout test @master @regression', async () => {
   // Step 2: Navigate to Login page
-  loginPage = await homePage.navigateLogin();
+  loginPage = await homePage.topMenuSection.myAccountMenu.navigateLogin();
 
   // Step 3: Perform login using valid credentials
   await loginPage.login(config.email, config.password);

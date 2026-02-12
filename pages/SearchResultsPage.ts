@@ -1,16 +1,18 @@
 import { Page, Locator } from '@playwright/test';
 import { ProductPage } from './ProductPage'; // Import ProductPage if needed
+import { TopMenuSection } from "./Widgets/TopMenuSection";
 
 export class SearchResultsPage {
     private readonly page: Page;
-    
+    private readonly topMenuSection : TopMenuSection;
+
     // Locators using CSS selectors
     private readonly searchPageHeader: Locator;
     private readonly searchProducts: Locator;
 
     constructor(page: Page) {
         this.page = page;
-        
+        this.topMenuSection = new TopMenuSection(this.page);
         // Initialize locators with CSS selectors
         this.searchPageHeader = page.locator('#content h1');
         this.searchProducts = page.locator('h4>a');

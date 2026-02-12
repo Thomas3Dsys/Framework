@@ -11,6 +11,7 @@ import { setTestCaseId } from "../utils/testcaseid";
 import { Database } from "../utils/database";
 import {ICustomer} from "../utils/database";
 import {OpenShopCryptography} from "../utils/cryptography"
+import { TopMenuSection } from "../pages/Widgets/TopMenuSection";
 
 let homePage: HomePage;
 let registrationPage: RegistrationPage;
@@ -26,7 +27,8 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.afterEach(async ({ page }) => {
-  if (await homePage.Logout()) {
+  const topMenuSection = new TopMenuSection(page);
+  if (await topMenuSection.myAccountMenu.Logout()) {
     const logoutPage = new LogoutPage(page);
     await logoutPage.waitForPageHeader();
   }
@@ -66,7 +68,7 @@ test("Validate the details that are provided while Registering an Account are st
   const password = RandomDataUtil.getPassword();
   const newsletter = true;
 
-  registrationPage = await homePage.navigateRegister();
+  registrationPage = await homePage.topMenuSection.myAccountMenu.navigateRegister();
 
   await registrationPage.completeRegistration({
     firstName: firstName,
