@@ -1,0 +1,1 @@
+Assigning Test Case ID: TC_LF_013 to test: Validate the text into the Password field is toggled to hide its visibility @master @sanity @regression

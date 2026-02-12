@@ -1,0 +1,8 @@
+Assigning Test Case ID: TC_RF_005 to test: Validate newsletter is subscribed after registration @master @regression
+Creating account with the following details:
+First Name: Malcolm
+Last Name: Johnson
+Email: Kendra23@hotmail.com
+Phone Number: 213.759.5905 x917
+Password: gfMuR9oByG27otS
+Newsletter: Yes

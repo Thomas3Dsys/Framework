@@ -1,0 +1,1 @@
+Assigning Test Case ID:  TC_LF_003  to test: Validate logging into the Application using invalid email address and valid Password) @master @regression

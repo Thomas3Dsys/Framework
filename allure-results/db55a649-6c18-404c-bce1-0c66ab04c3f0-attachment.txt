@@ -1,0 +1,8 @@
+Assigning Test Case ID: TC_RF_003 to test: Validate Registering an Account by providing all the fields @master @regression
+Creating account with the following details:
+First Name: Cortez
+Last Name: Braun
+Email: Damian22@hotmail.com
+Phone Number: 1-835-356-2436 x7754
+Password: voNjmHy1l2TWJJB
+Newsletter: Yes

@@ -1,28 +1,30 @@
 import { Page, Locator } from "@playwright/test";
 import { RegistrationPage } from "./RegistrationPage";
+import { MyAccountPage } from "./MyAccountPage";
+import { ForgottenPasswordPage } from "./ForgottenPasswordPage";
+import { Alerts } from "../pages/Widgets/Alerts";
 
 export class LoginPage {
   private readonly page: Page;
-
+  public alerts: Alerts;
   // Locators
   private readonly textEmailAddress: Locator;
   private readonly textPassword: Locator;
   private readonly buttonLogin: Locator;
-  private readonly textErrorMessage: Locator;
+
   private readonly buttonContinue: Locator;
   private readonly newCustomerSectionHeader: Locator;
   private readonly returningCustomerSectionHeader: Locator;
+  private readonly linkForgottenPassword: Locator;
 
   constructor(page: Page) {
     this.page = page;
-
+    this.alerts = new Alerts(page);
     // Initialize locators with CSS selectors
     this.textEmailAddress = page.locator("#input-email");
     this.textPassword = page.locator("#input-password");
     this.buttonLogin = page.locator('input[value="Login"]');
-    this.textErrorMessage = page.locator(
-      ".alert.alert-danger.alert-dismissible",
-    );
+
     this.buttonContinue = page.locator('a.btn:has-text("Continue")');
     this.newCustomerSectionHeader = page.getByRole("heading", {
       name: "New Customer",
@@ -30,6 +32,9 @@ export class LoginPage {
     this.returningCustomerSectionHeader = page.getByRole("heading", {
       name: "Returning Customer",
     });
+    this.linkForgottenPassword = page.locator(
+      "//div[@class='form-group']//a[normalize-space()='Forgotten Password']",
+    );
   }
 
   /*
@@ -54,12 +59,34 @@ export class LoginPage {
     await this.textEmailAddress.fill(email);
   }
 
+  async getEmailFieldValue() {
+    return await this.textEmailAddress.inputValue();
+  }
+
   /**
    * Sets the password in the password field
    * @param pwd - Password to enter
    */
   async setPassword(pwd: string) {
     await this.textPassword.fill(pwd);
+  }
+
+  async getPasswordFieldAttribute(attribute: string) {
+    return await this.textPassword.getAttribute(attribute);
+  }
+  async getPasswordFieldValue() {
+    return await this.textPassword.inputValue();
+  }
+
+  async getPasswordOuterHTMLValue(): Promise<string> {
+    return await this.textPassword.evaluate((node) => node.outerHTML);
+  }
+
+  async getPasswordWebkitTextSecurityValue(): Promise<string> {
+    const value = await this.textPassword.evaluate((el) =>
+      window.getComputedStyle(el).getPropertyValue("-webkit-text-security"),
+    );
+    return value;
   }
 
   /**
@@ -74,14 +101,13 @@ export class LoginPage {
    * @param email - Email address to enter
    * @param password - Password to enter
    */
-  async login(email: string, password: string) {
+  async login(email: string, password: string): Promise<MyAccountPage> {
     await this.setEmail(email);
     await this.setPassword(password);
     await this.clickLogin();
-  }
-
-  async getloginErrorMessage(): Promise<null | string> {
-    return this.textErrorMessage.textContent();
+    const newAccountPage = await new MyAccountPage(this.page);
+    await newAccountPage.waitForPageHeader();
+    return newAccountPage;
   }
 
   /*
@@ -92,6 +118,23 @@ export class LoginPage {
     try {
       await this.buttonContinue.click();
       return new RegistrationPage(this.page);
+    } catch (error) {
+      console.log(`Unable to click Continue button: ${error}`);
+      throw error; // Re-throw the error to fail the test
+    }
+  }
+
+  async doesForgottenPasswordLinkExist(): Promise<Boolean> {
+    return this.linkForgottenPassword.isVisible();
+  }
+
+  async clickForgottenPasswordLink(): Promise<ForgottenPasswordPage> {
+    try {
+      await this.linkForgottenPassword.click();
+
+      const forgottonPasswordPage = new ForgottenPasswordPage(this.page);
+      await forgottonPasswordPage.waitForPageHeader();
+      return forgottonPasswordPage;
     } catch (error) {
       console.log(`Unable to click Continue button: ${error}`);
       throw error; // Re-throw the error to fail the test

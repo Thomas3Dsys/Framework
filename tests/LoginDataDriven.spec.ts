@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test';
-import { LoginPage } from '../pages/LoginPage';
 import { MyAccountPage } from '../pages/MyAccountPage';
 import { DataProvider } from '../utils/dataProvider';
 import { TestConfig } from '../test.config';
@@ -40,13 +39,13 @@ for(const data of jsonTestData)
 
         if(data.expected.toLowerCase()==='success')
         {
-            const myAccountPage=new MyAccountPage(page);
-            const isLoggedIn=await myAccountPage.isMyAccountPageExists();
+            const myAccountPage = new MyAccountPage(page);
+            const isLoggedIn = await myAccountPage.doesPageExist();
             expect(isLoggedIn).toBeTruthy();
 
         }
         else{
-            const errorMessage=await loginPage.getloginErrorMessage();
+            const errorMessage=await loginPage.alerts.getAlertDangerMessage();
             //expect(errorMessage).toBe('Warning: No match for E-Mail Address and/or Password.');
             expect(errorMessage).toContain('Warning: No match');
         }
@@ -90,12 +89,12 @@ for(const data of csvTestData)
         if(data.expected.toLowerCase()==='success')
         {
             const myAccountPage=new MyAccountPage(page);
-            const isLoggedIn=await myAccountPage.isMyAccountPageExists();
+            const isLoggedIn=await myAccountPage.doesPageExist();
             expect(isLoggedIn).toBeTruthy();
 
         }
         else{
-            const errorMessage=await loginPage.getloginErrorMessage();
+            const errorMessage=await loginPage.alerts.getAlertDangerMessage();
             //expect(errorMessage).toBe('Warning: No match for E-Mail Address and/or Password.');
             // Warning: Your account has exceeded allowed number of login attempts. Please try again in 1 hour."
             expect(errorMessage).toContain('Warning: No match');    

@@ -1,0 +1,1 @@
+Assigning Test Case ID: TC_LF_019 to test: Validate user is able to navigate to different pages from Login page @master  @regression

@@ -1,0 +1,1 @@
+Assigning Test Case ID: TC_RF_013 to test: Validate all the fields in the Register Account page have the proper placeholders @master @sanity @regression

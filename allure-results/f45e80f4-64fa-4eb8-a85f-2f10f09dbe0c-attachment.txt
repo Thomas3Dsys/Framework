@@ -1,0 +1,1 @@
+Assigning Test Case ID: TC_LF_008 to test: Validate E-Mail Address and Password text fields in the Login page have the placeholder text  @master @sanity @regression

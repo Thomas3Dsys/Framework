@@ -1,18 +1,3 @@
-/**
- * Test Case: User Logout
- * 
- * Tags: @master @regression
- * 
- * Steps:
- * 1) Navigate to the application URL
- * 2) Go to Login page from Home page
- * 3) Login with valid credentials
- * 4) Verify 'My Account' page
- * 5) Click on Logout link
- * 6) Click on Continue button
- * 7) Verify user is redirected to Home Page
- */
-
 import { test, expect } from '@playwright/test';
 import { TestConfig } from '../test.config';
 import { HomePage } from '../pages/HomePage';
@@ -52,7 +37,7 @@ test('User logout test @master @regression', async () => {
   await loginPage.login(config.email, config.password);
 
   // Step 4: Verify successful login
-  expect(await myAccountPage.isMyAccountPageExists()).toBeTruthy();
+  expect(await myAccountPage.doesPageExist()).toBeTruthy();
 
   // Step 5: Click Logout, which returns LogoutPage instance
   logoutPage = await myAccountPage.clickLogout();

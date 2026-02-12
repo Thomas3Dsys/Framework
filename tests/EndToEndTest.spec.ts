@@ -111,7 +111,8 @@ async function performLogin(page: Page, email: string) {
 
     // Verify login by checking My Account page
     const myAccountPage = new MyAccountPage(page);
-    expect(await myAccountPage.isMyAccountPageExists()).toBeTruthy();
+    await myAccountPage.waitForPageHeader();
+    expect(await myAccountPage.doesPageExist()).toBeTruthy();
 }
 
 

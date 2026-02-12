@@ -58,24 +58,11 @@ export class RegistrationPage {
 
 private  async getLabelBeforeDetails(itemLocator: Locator): Promise<{content: string, style: string} | null> {
 
-
+//todo: change from expect to some other way to check... throw exception...
 expect(await itemLocator.isVisible()).toBeTruthy();
 
-
-// await this.page.evaluate(() => {
-//     console.log("This will run");
-// });
-
       const beforeContent = await itemLocator.evaluate((el) => {
-/* 
-      console.log("Evaluating ::before pseudo-element for:", el);
-      console.log("Content");
-      console.log(window.getComputedStyle(el, '::before').getPropertyValue('content'));
-      console.log("Style")
-      console.log(window.getComputedStyle(el, '::before').getPropertyValue('style'));        
-      console.log("cssText")
-      console.log(window.getComputedStyle(el, '::before').getPropertyValue('cssText'));      
- */
+
        const elementDetails = 
         {
           content:window.getComputedStyle(el, '::before').getPropertyValue('content').replace(/['"]+/g, '').trim(), // Remove quotes from content value

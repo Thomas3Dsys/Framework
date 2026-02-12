@@ -1,0 +1,1 @@
+Assigning Test Case ID: TC_RF_004 to test: Validate messages on submit with no informaiton entered @negative @master @regression

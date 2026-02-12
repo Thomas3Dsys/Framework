@@ -1,0 +1,1 @@
+Assigning Test Case ID: TC_LF_018 to test: Validate timeout of the Login Session @master  @regression

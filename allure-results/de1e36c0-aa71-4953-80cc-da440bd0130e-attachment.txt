@@ -1,0 +1,1 @@
+Assigning Test Case ID: TC_LF_016 to test: Validate Logging into the Application after changing the password @master  @regression

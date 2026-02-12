@@ -7,7 +7,6 @@ export class MyAccountPage {
   private readonly page: Page;
 
   // Locators using CSS selectors
-  private readonly msgHeading: Locator;
   private readonly linkLogout: Locator;
   private readonly linkEditAccountInformation: Locator;
   private readonly linkChangePassword: Locator;
@@ -29,7 +28,7 @@ export class MyAccountPage {
     this.page = page;
 
     // Initialize locators with CSS selectors
-    this.msgHeading = page.locator('h2:has-text("My Account")');
+    this.pageHeader = page.locator("//h2[contains(text(), 'My Account')]");
     this.linkLogout = page.locator("text='Logout'").nth(1);
 
     this.linkEditAccountInformation = this.page.locator(
@@ -66,7 +65,7 @@ export class MyAccountPage {
     this.linkNewsletter = this.page.locator(
       "a:has-text('Subscribe / unsubscribe to newsletter')",
     );
-    this.pageHeader = page.getByRole("heading", { name: "My Account" });
+    
 
     this.alerts = new Alerts(page);
   }
@@ -82,9 +81,9 @@ export class MyAccountPage {
    * Verifies if My Account page is displayed
    * @returns Promise<boolean> - Returns true if heading is visible
    */
-  async isMyAccountPageExists(): Promise<boolean> {
+  async doesPageExist(): Promise<boolean> {
     try {
-      const isVisible = await this.msgHeading.isVisible();
+      const isVisible = await this.pageHeader.isVisible();
       return isVisible;
     } catch (error) {
       console.log(

@@ -1,0 +1,15 @@
+Assigning Test Case ID: TC_LF_006 to test: Validate Forgotten Password link is available in the Login page and is working @master @sanity @regression
+Exception occurred while clicking 'My Account': Error: locator.click: Test ended.
+Call log:
+  - waiting for locator('a.dropdown-toggle:has-text("My Account")')
+    - locator resolved to <a title="My Account" data-toggle="dropdown" class="dropdown-toggle" href="http://localhost/opencart/upload/index.php?route=account/account">…</a>
+  - attempting click action
+    - waiting for element to be visible, enabled and stable
+
+Exception occurred while clicking 'Logout': Error: locator.click: Test ended.
+Call log:
+  - waiting for locator('a.dropdown-toggle:has-text("My Account")')
+    - locator resolved to <a title="My Account" data-toggle="dropdown" class="dropdown-toggle" href="http://localhost/opencart/upload/index.php?route=account/account">…</a>
+  - attempting click action
+    - waiting for element to be visible, enabled and stable
+

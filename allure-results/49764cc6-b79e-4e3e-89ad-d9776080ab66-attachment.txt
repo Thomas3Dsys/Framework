@@ -1,0 +1,1 @@
+Assigning Test Case ID: TC_LF_001 to test: Validate login into the Application using valid credentials @master @regression

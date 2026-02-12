@@ -1,0 +1,1 @@
+Assigning Test Case ID:  TC_LF_012  to test: Validate the number of unsucessful login attemps  @master @regression
