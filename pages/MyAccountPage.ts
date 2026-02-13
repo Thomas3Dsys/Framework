@@ -1,14 +1,24 @@
 import { Page, Locator, expect } from "@playwright/test";
-import { LogoutPage } from "./LogoutPage"; // Import LogoutPage if needed
-import { Alerts } from "../pages/Widgets/Alerts";
-import { NewsletterSubscriptionPage } from "./MyAccount/NewsletterSubscriptionPage";
+import { LogoutPage } from "./LogoutPage"; 
+import { AddressBookPage } from "../pages/MyAccount/AddressBookPage";
+import { WishListPage } from "../pages/MyAccount/WishListPage";
+import { OrderHistoryPage } from "../pages/MyAccount/OrderHistoryPage";
+import { AccountDownloadsPage } from "../pages/MyAccount/AccountDownloadsPage";
+import { RecurringPaymentsPage } from "../pages/MyAccount/RecurringPaymentsPage";
+import { RewardPointsPage } from "../pages/MyAccount/RewardPointsPage";
+import { ProductReturnsPage } from "../pages/MyAccount/ProductReturns";
+import { TransactionsPage } from "../pages/MyAccount/TransactionsPage";
+import { NewsletterSubscriptionPage } from "../pages/MyAccount/NewsletterSubscriptionPage";
 import { ChangePasswordPage } from "../pages/MyAccount/ChangePasswordPage";
-
 import { TopMenuSection } from "./Widgets/TopMenuSection";
+import { MyAccountRightLinks } from "./Widgets/MyAccountRightLinks";
+import { AffiliateInformationPage } from "./MyAccount/AffiliateInformationPage";
 
 export class MyAccountPage {
   private readonly page: Page;
   public readonly topMenuSection: TopMenuSection;
+  public myAccountRightLinks: MyAccountRightLinks;
+
   // Locators using CSS selectors
   private readonly linkLogout: Locator;
   private readonly linkEditAccountInformation: Locator;
@@ -25,12 +35,11 @@ export class MyAccountPage {
   private readonly linkNewsletter: Locator;
   private readonly pageHeader: Locator;
 
-  public alerts: Alerts;
-
   constructor(page: Page) {
     this.page = page;
     this.topMenuSection = new TopMenuSection(this.page);
-    
+    this.myAccountRightLinks = new MyAccountRightLinks(this.page);
+
     // Initialize locators with CSS selectors
     this.pageHeader = page.locator("//h2[contains(text(), 'My Account')]");
     this.linkLogout = page.locator("text='Logout'").nth(1);
@@ -69,8 +78,6 @@ export class MyAccountPage {
     this.linkNewsletter = this.page.locator(
       "a:has-text('Subscribe / unsubscribe to newsletter')",
     );
-
-    this.alerts = new Alerts(page);
   }
 
   /*
@@ -103,7 +110,7 @@ export class MyAccountPage {
   async clickLogout(): Promise<LogoutPage> {
     try {
       await this.linkLogout.click();
-      return new LogoutPage(this.page);
+      return await new LogoutPage(this.page);
     } catch (error) {
       console.log(`Unable to click Logout link: ${error}`);
       throw error; // Re-throw the error to fail the test
@@ -140,71 +147,120 @@ export class MyAccountPage {
   /**
    * Clicks on Modify Address Book link
    */
-  async clickModifyAddressBook(): Promise<void> {
-    await this.linkModifyAddressBook.click();
+  async clickModifyAddressBook(): Promise<AddressBookPage> {
+    try {
+      await this.linkModifyAddressBook.click();
+      return await new AddressBookPage(this.page);
+    } catch (error) {
+      throw new Error(`Failed to click AddressBookPage: ${error}`);
+    }
   }
 
   /**
    * Clicks on Modify Wish List link
    */
-  async clickModifyWishList(): Promise<void> {
-    await this.linkModifyWishList.click();
+  async clickModifyWishList(): Promise<WishListPage> {
+    try {
+      await this.linkModifyWishList.click();
+      return await new WishListPage(this.page);
+    } catch (error) {
+      throw new Error(`Failed to click Modify Wish List: ${error}`);
+    }
   }
 
   /**
    * Clicks on View Order History link
    */
-  async clickViewOrderHistory(): Promise<void> {
-    await this.linkViewOrderHistory.click();
+  async clickViewOrderHistory(): Promise<OrderHistoryPage> {
+    try {
+      await this.linkViewOrderHistory.click();
+      return await new OrderHistoryPage(this.page);
+    } catch (error) {
+      throw new Error(`Failed to click View Order History: ${error}`);
+    }
   }
 
   /**
    * Clicks on Downloads link
    */
-  async clickDownloads(): Promise<void> {
-    await this.linkDownloads.click();
+  async clickDownloads(): Promise<AccountDownloadsPage> {
+    try {
+      await this.linkDownloads.click();
+      return await new AccountDownloadsPage(this.page);
+    } catch (error) {
+      throw new Error(`Failed to click Downloads: ${error}`);
+    }
   }
 
   /**
    * Clicks on Reward Points link
    */
-  async clickRewardPoints(): Promise<void> {
-    await this.linkRewardPoints.click();
+  async clickRewardPoints(): Promise<RewardPointsPage> {
+    try {
+      await this.linkRewardPoints.click();
+      return await new RewardPointsPage(this.page);
+    } catch (error) {
+      throw new Error(`Failed to click Reward Points: ${error}`);
+    }
   }
 
   /**
    * Clicks on View Return Requests link
    */
-  async clickViewReturnRequests(): Promise<void> {
-    await this.linkViewReturnRequests.click();
+  async clickViewReturnRequests(): Promise<ProductReturnsPage> {
+    try {
+      await this.linkViewReturnRequests.click();
+      return await new ProductReturnsPage(this.page);
+    } catch (error) {
+      throw new Error(`Failed to click ViewReturn Requests: ${error}`);
+    }
   }
 
   /**
    * Clicks on Transactions link
    */
-  async clickTransactions(): Promise<void> {
-    await this.linkTransactions.click();
+  async clickTransactions(): Promise<TransactionsPage> {
+    try {
+      await this.linkTransactions.click();
+      return await new TransactionsPage(this.page);
+    } catch (error) {
+      throw new Error(`Failed to click Transactions: ${error}`);
+    }
   }
 
   /**
    * Clicks on Recurring Payments link
    */
-  async clickRecurringPayments(): Promise<void> {
-    await this.linkRecurringPayments.click();
+  async clickRecurringPayments(): Promise<RecurringPaymentsPage> {
+    try {
+      await this.linkRecurringPayments.click();
+      return await new RecurringPaymentsPage(this.page);
+    } catch (error) {
+      throw new Error(`Failed to click Recurring Payments: ${error}`);
+    }
   }
 
   /**
    * Clicks on Affiliate Account link
    */
-  async clickAffiliateAccount(): Promise<void> {
-    await this.linkAffiliateAccount.click();
+  async clickAffiliateAccount(): Promise<AffiliateInformationPage> {
+    try {
+      await this.linkAffiliateAccount.click();
+      return await new AffiliateInformationPage(this.page);
+    } catch (error) {
+      throw new Error(`Failed to click Affiliate Account: ${error}`);
+    }
   }
 
   /**
    * Clicks on Newsletter link
    */
   async clickNewsletterSubscription(): Promise<NewsletterSubscriptionPage> {
-    await this.linkNewsletter.click();
-    return new NewsletterSubscriptionPage(this.page);
+    try {
+      await this.linkNewsletter.click();
+      return await new NewsletterSubscriptionPage(this.page);
+    } catch (error) {
+      throw new Error(`Failed to click Newsletter Subscription: ${error}`);
+    }
   }
 }

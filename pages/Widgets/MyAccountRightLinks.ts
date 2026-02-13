@@ -2,6 +2,25 @@
 import { Page, Locator} from '@playwright/test';
 import { LoginPage } from '../LoginPage';
 import { RegistrationPage } from '../RegistrationPage';
+import { MyAccountPage } from '../MyAccountPage';
+import { AddressBookPage } from '../MyAccount/AddressBookPage';
+import { WishListPage } from '../MyAccount/WishListPage';
+import { OrderHistoryPage } from '../MyAccount/OrderHistoryPage';
+import { AccountDownloadsPage } from '../MyAccount/AccountDownloadsPage';
+import { RecurringPaymentsPage } from '../MyAccount/RecurringPaymentsPage';
+import { RewardPointsPage } from '../MyAccount/RewardPointsPage';
+import { ProductReturnsPage } from '../MyAccount/ProductReturns';
+import { TransactionsPage } from '../MyAccount/TransactionsPage';
+import { NewsletterSubscriptionPage } from '../MyAccount/NewsletterSubscriptionPage';
+
+
+
+/*Creation:
+  import { MyAccountRightLinks } from "./Widgets/MyAccountRightLinks";
+  public myAccountRightLinks: MyAccountRightLinks;
+  this.myAccountRightLinks = new MyAccountRightLinks(this.page);
+  */
+
 
 export class MyAccountRightLinks {
     private readonly page: Page;
@@ -66,4 +85,101 @@ async clickLogin(): Promise<LoginPage> {
     return true;
   }
 
+  
+    async clickMyAccount(): Promise<MyAccountPage> {
+      try {
+        await this.linkMyAccount.click();
+        return new MyAccountPage(this.page);
+      } catch (error) {
+        throw new Error(`Failed to click My Account: ${error}`);
+      }
+    }
+
+    async clickAddressBook(): Promise<AddressBookPage> {
+      try {
+        await this.linkAddressBook.click();
+        return new AddressBookPage(this.page);
+      } catch (error) {
+        throw new Error(`Failed to click Address Book: ${error}`);
+      }
+    }
+
+    async clickWishList(): Promise<WishListPage> {
+      try {
+        await this.linkWishList.click();
+        return new WishListPage(this.page);
+      } catch (error) {
+        throw new Error(`Failed to click Wish List: ${error}`);
+      }
+    }
+
+    async clickOrderHistory(): Promise<OrderHistoryPage> {
+      try {
+        await this.linkOrderHistory.click();
+        return new OrderHistoryPage(this.page);
+      } catch (error) {
+        throw new Error(`Failed to click Order History: ${error}`);
+      }
+    }
+
+    async clickDownloads(): Promise<AccountDownloadsPage> {
+      try {
+        await this.linkDownloads.click();
+        return new AccountDownloadsPage(this.page);
+      } catch (error) {
+        throw new Error(`Failed to click Downloads: ${error}`);
+      }
+    }
+
+    async clickRecurringPayments(): Promise<RecurringPaymentsPage> {
+      try {
+        await this.linkRecurringpayments.click();
+        return new RecurringPaymentsPage(this.page);
+      } catch (error) {
+        throw new Error(`Failed to click Recurring Payments: ${error}`);
+      }
+    }
+
+    async clickRewardPoints(): Promise<RewardPointsPage> {
+      try {
+        await this.linkRewardPoints.click();
+        return new RewardPointsPage(this.page);
+      } catch (error) {
+        throw new Error(`Failed to click Reward Points: ${error}`);
+      }
+    }
+
+    async clickReturns(): Promise<ProductReturnsPage> {
+      try {
+        await this.linkReturns.click();
+        return new ProductReturnsPage(this.page);
+      } catch (error) {
+        throw new Error(`Failed to click Returns: ${error}`);
+      }
+    }
+
+    async clickTransactions(): Promise<TransactionsPage> {
+      try {
+        await this.linkTransactions.click();
+        return new TransactionsPage(this.page);
+      } catch (error) {
+        throw new Error(`Failed to click Transactions: ${error}`);
+      }
+    }
+
+    async clickNewsletter(): Promise<NewsletterSubscriptionPage> {
+      try {
+        await this.linkNewsletter.click();
+        return new NewsletterSubscriptionPage(this.page);
+      } catch (error) {
+        throw new Error(`Failed to click Newsletter: ${error}`);
+      }
+    }
+
+
+
+
+
+
+  
 }

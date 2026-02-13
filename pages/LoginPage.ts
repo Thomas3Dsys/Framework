@@ -51,10 +51,10 @@ export class LoginPage {
   /*
    waits for the expected page header to be visible, indicating that the logout page has loaded successfully
   */
-  async waitForPageHeader(): Promise<void> {
+async waitForPageHeader(timeout:number = 5000): Promise<void> {
     await this.newCustomerSectionHeader.waitFor({
       state: "visible",
-      timeout: 5000,
+      timeout: timeout,
     });
     await this.returningCustomerSectionHeader.waitFor({
       state: "visible",

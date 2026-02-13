@@ -46,7 +46,7 @@ test("Validate logging into the Application using invalid credentials (i.e. Inva
   await loginPage.setPassword(config.password + "xyz");
   await loginPage.clickLogin();
 
-  expect(await loginPage.alerts.getAlertDangerMessage()).toBe(
+  expect(await loginPage.topMenuSection.alerts.getAlertDangerMessage()).toBe(
     invalidLoginMessage,
   );
 });
@@ -57,7 +57,7 @@ test("Validate logging into the Application using invalid email address and vali
   await loginPage.setPassword(config.password + "xyz");
   await loginPage.clickLogin();
 
-  expect(await loginPage.alerts.getAlertDangerMessage()).toBe(
+  expect(await loginPage.topMenuSection.alerts.getAlertDangerMessage()).toBe(
     invalidLoginMessage,
   );
 });
@@ -69,7 +69,7 @@ test("Validate logging into the Application using valid email address and invali
   await loginPage.setPassword(config.password + "xyz");
   await loginPage.clickLogin();
 
-  expect(await loginPage.alerts.getAlertDangerMessage()).toBe(
+  expect(await loginPage.topMenuSection.alerts.getAlertDangerMessage()).toBe(
     invalidLoginMessage,
   );
 });
@@ -78,7 +78,7 @@ test("Validate logging into the Application without providing any credentials @m
 
   await loginPage.clickLogin();
 
-  expect(await loginPage.alerts.getAlertDangerMessage()).toBe(
+  expect(await loginPage.topMenuSection.alerts.getAlertDangerMessage()).toBe(
     invalidLoginMessage,
   );
 });
@@ -101,21 +101,21 @@ test("Validate logging into the Application using inactive credentials @master @
   await loginPage.clickLogin();
 
   //May get exceededLoginAttempts message here if test case has been run recently
-  expect(loginPage.alerts.getAlertDangerMessage).toContain(invalidLoginMessage);
+  expect(loginPage.topMenuSection.alerts.getAlertDangerMessage()).toContain(invalidLoginMessage);
   page.waitForTimeout(3000);
 
   await loginPage.setEmail(invalidEmail);
   await loginPage.setPassword(invalidPassword);
   await loginPage.clickLogin();
 
-  expect(loginPage.alerts.getAlertDangerMessage).toContain(invalidLoginMessage);
+  expect(loginPage.topMenuSection.alerts.getAlertDangerMessage()).toContain(invalidLoginMessage);
   page.waitForTimeout(3000);
 
   await loginPage.setEmail(invalidEmail);
   await loginPage.setPassword(invalidPassword);
   await loginPage.clickLogin();
 
-  expect(loginPage.alerts.getAlertDangerMessage).toContain(
+  expect(loginPage.topMenuSection.alerts.getAlertDangerMessage()).toContain(
     exceededLoginAttempts,
   );
 });

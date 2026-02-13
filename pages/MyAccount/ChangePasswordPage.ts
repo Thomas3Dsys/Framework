@@ -19,10 +19,10 @@ export class ChangePasswordPage {
     this.buttonContinue = page.locator('input[value="Continue"]');
   }
 
-  async waitForPageHeader(): Promise<void> {
+  async waitForPageHeader(timeout:number = 5000): Promise<void> {
     await this.header.waitFor({
       state: "visible",
-      timeout: 5000,
+      timeout: timeout,
     });
   }
   /* 

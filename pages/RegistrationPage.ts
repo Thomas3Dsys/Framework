@@ -91,8 +91,8 @@ export class RegistrationPage {
   /*
    waits for the expected page header to be visible, indicating that the logout page has loaded successfully
   */
-  async waitForPageHeader(): Promise<void> {
-    await this.pageHeader.waitFor({ state: "visible", timeout: 5000 });
+  async waitForPageHeader(timeout:number = 5000): Promise<void> {
+    await this.pageHeader.waitFor({ state: "visible", timeout: timeout });
   }
 
   async hasExpectedPageHeader(): Promise<boolean> {

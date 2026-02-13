@@ -66,7 +66,7 @@ test("Validate Forgotten Password link is available in the Login page and is wor
   expect(forgottenPasswordPage.doesPageExist()).toBeTruthy();
 });
 
-test("Validate logging into the Application using Keyboard keys (Tab and Enter) @master @sanity @regression", async ({}, testInfo) => {
+test.skip("Validate logging into the Application using Keyboard keys (Tab and Enter) @master @sanity @regression", async ({}, testInfo) => {
   setTestCaseId(testInfo, "TC_LF_007");
 });
 test("Validate E-Mail Address and Password text fields in the Login page have the placeholder text  @master @sanity @regression", async ({}, testInfo) => {
@@ -115,9 +115,7 @@ test.skip("Validate the copying of the text entered into the Password field @mas
   setTestCaseId(testInfo, "TC_LF_014");
 });
 
-test.skip("Validate the Password is not visible in the Page Source @master  @regression", async ({}, testInfo) => {
-  setTestCaseId(testInfo, "TC_LF_015");
-});
+
 
 test("Validate Logging into the Application after changing the password @master  @regression", async ({}, testInfo) => {
   setTestCaseId(testInfo, "TC_LF_016");
@@ -187,9 +185,10 @@ test.fail(
     ).toBeTruthy();
   },
 );
-test.fixme("Validate timeout of the Login Session @master  @regression", async ({}, testInfo) => {
+test.skip("Validate timeout of the Login Session @master  @regression", async ({}, testInfo) => {
   setTestCaseId(testInfo, "TC_LF_018");
 });
+
 test.skip("Validate user is able to navigate to different pages from Login page @master  @regression", async ({}, testInfo) => {
   setTestCaseId(testInfo, "TC_LF_019");
 
