@@ -49,4 +49,21 @@ async clickLogin(): Promise<LoginPage> {
   }
 
 
+  async hasAllLinks(): Promise<boolean> {
+    if(!this.linkLogin.isVisible()) return false;
+    if(!this.linkRegister.isVisible()) return false;
+    if(!this.linkForgottenPassword.isVisible()) return false;
+    if(!this.linkMyAccount.isVisible()) return false;
+    if(!this.linkAddressBook.isVisible()) return false;
+    if(!this.linkWishList.isVisible()) return false;
+    if(!this.linkOrderHistory.isVisible()) return false;
+    if(!this.linkDownloads.isVisible()) return false;
+    if(!this.linkRecurringpayments.isVisible()) return false;
+    if(!this.linkRewardPoints.isVisible()) return false;
+    if(!this.linkReturns.isVisible()) return false;
+    if(!this.linkTransactions.isVisible()) return false;
+    if(!this.linkNewsletter.isVisible()) return false;
+    return true;
+  }
+
 }

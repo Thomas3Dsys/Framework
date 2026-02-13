@@ -3,13 +3,16 @@ import { RegistrationPage } from "./RegistrationPage";
 import { MyAccountPage } from "./MyAccountPage";
 import { ForgottenPasswordPage } from "./ForgottenPasswordPage";
 import { Alerts } from "../pages/Widgets/Alerts";
-import { MyAccountMenu } from "./Widgets/MyAccountMenu";
+import { TopMenuSection } from "./Widgets/TopMenuSection";
+import { MyAccountRightLinks } from "./Widgets/MyAccountRightLinks";
+  
 
 
 export class LoginPage {
   private readonly page: Page;
-  public alerts: Alerts;
-  private readonly myAccountMenu: MyAccountMenu;
+
+  public readonly topMenuSection: TopMenuSection;
+  public myAccountRightLinks: MyAccountRightLinks;
    
   // Locators
   private readonly textEmailAddress: Locator;
@@ -24,8 +27,10 @@ export class LoginPage {
 
   constructor(page: Page) {
     this.page = page;
-    this.alerts = new Alerts(page);
-    this.myAccountMenu = new MyAccountMenu(this.page);
+       
+  this.topMenuSection = new TopMenuSection(this.page);
+  this.myAccountRightLinks = new MyAccountRightLinks(this.page);
+    
     // Initialize locators with CSS selectors
     this.textEmailAddress = page.locator("#input-email");
     this.textPassword = page.locator("#input-password");
@@ -153,6 +158,14 @@ export class LoginPage {
     async getPasswordPlaceholder(): Promise<string | null> {
     return await this.textPassword.getAttribute("placeholder");
   }
+
+async hasNewCustomerHeader() :Promise<boolean>{
+ return await this.newCustomerSectionHeader.isVisible();
+}
+
+async hasReturningCustomerHeader(): Promise<boolean>{
+  return await this.returningCustomerSectionHeader.isVisible();
+}
 
 
 }

@@ -9,6 +9,7 @@ import { Database } from "../utils/database";
 import { ForgottenPasswordPage } from "../pages/ForgottenPasswordPage";
 import { RandomDataUtil } from "../utils/randomDataGenerator";
 import { TopMenuSection } from "../pages/Widgets/TopMenuSection";
+import { RegistrationPage } from "../pages/RegistrationPage";
 
 let config: TestConfig;
 let homePage: HomePage;
@@ -32,9 +33,8 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.afterEach(async ({ page }) => {
+  const topMenuSection = new TopMenuSection(page);
 
-   const topMenuSection = new TopMenuSection(page);
-    
   if (await topMenuSection.myAccountMenu.hasMyAccountMenuForLoggedInUser()) {
     if (await topMenuSection.myAccountMenu.Logout()) {
       const logoutPage = new LogoutPage(page);
@@ -84,7 +84,9 @@ test.skip("Validate Logging into the Application and browsing back using Browser
   page.goBack();
 
   homePage = new HomePage(page);
-  expect(homePage.topMenuSection.myAccountMenu.hasMyAccountMenuForLoggedInUser()).toBeTruthy();
+  expect(
+    homePage.topMenuSection.myAccountMenu.hasMyAccountMenuForLoggedInUser(),
+  ).toBeTruthy();
 });
 
 test("Validate Logging out from the Application and browsing back using Browser back button @master @sanity @regression", async ({
@@ -93,14 +95,20 @@ test("Validate Logging out from the Application and browsing back using Browser 
   setTestCaseId(testInfo, "TC_LF_010");
 
   myAccountPage = await loginPage.login(config.email, config.password);
-  expect(myAccountPage.topMenuSection.myAccountMenu.hasMyAccountMenuForLoggedInUser()).toBeTruthy();
+  expect(
+    myAccountPage.topMenuSection.myAccountMenu.hasMyAccountMenuForLoggedInUser(),
+  ).toBeTruthy();
 
   homePage.topMenuSection.myAccountMenu.Logout();
-  expect(homePage.topMenuSection.myAccountMenu.hasMyAccountMenuForLoggedInUser()).toBeTruthy();
+  expect(
+    homePage.topMenuSection.myAccountMenu.hasMyAccountMenuForLoggedInUser(),
+  ).toBeTruthy();
 
   page.goBack();
   homePage = new HomePage(page);
-  expect(homePage.topMenuSection.myAccountMenu.hasMyAccountMenuForLoggedInUser()).toBeTruthy();
+  expect(
+    homePage.topMenuSection.myAccountMenu.hasMyAccountMenuForLoggedInUser(),
+  ).toBeTruthy();
 });
 
 test.skip("Validate the copying of the text entered into the Password field @master  @regression", async ({}, testInfo) => {
@@ -151,7 +159,9 @@ test("Validate Logging into the Application after changing the password @master 
   );
 
   await homePage.topMenuSection.myAccountMenu.Logout();
-  expect(await homePage.topMenuSection.myAccountMenu.hasMyAccountMenuForLoggedOutUser()).toBeTruthy();
+  expect(
+    await homePage.topMenuSection.myAccountMenu.hasMyAccountMenuForLoggedOutUser(),
+  ).toBeTruthy();
 
   homePage.topMenuSection.myAccountMenu.navigateLogin();
 
@@ -172,22 +182,57 @@ test.fail(
     await newPage.goto(config.appUrl);
 
     homePage = new HomePage(newPage);
-    expect(await homePage.topMenuSection.myAccountMenu.hasMyAccountMenuForLoggedInUser()).toBeTruthy();
+    expect(
+      await homePage.topMenuSection.myAccountMenu.hasMyAccountMenuForLoggedInUser(),
+    ).toBeTruthy();
   },
 );
-test.skip("Validate timeout of the Login Session @master  @regression", async ({}, testInfo) => {
+test.fixme("Validate timeout of the Login Session @master  @regression", async ({}, testInfo) => {
   setTestCaseId(testInfo, "TC_LF_018");
 });
 test.skip("Validate user is able to navigate to different pages from Login page @master  @regression", async ({}, testInfo) => {
   setTestCaseId(testInfo, "TC_LF_019");
+
+  const registrationPage = await loginPage.newCustomerClickContinue();
+  expect(await registrationPage.hasExpectedPageHeader).toBeTruthy();
+
+  loginPage =
+    await registrationPage.topMenuSection.myAccountMenu.navigateLogin();
+
+  /* 
+(Right Column options, Header options, Menu Options, Footer options and any other options) (ER-2)" */
+
+  expect(await loginPage.hasNewCustomerHeader()).toBeTruthy();
+  expect(await loginPage.hasReturningCustomerHeader()).toBeTruthy();
+  expect(
+    await loginPage.topMenuSection.myAccountMenu.hasAllLoggedOutUserLinks(),
+  ).toBeTruthy();
+  expect(await loginPage.myAccountRightLinks.hasAllLinks()).toBeTruthy();
+  //still need to verify footer contents when implemented
 });
-test.skip("Validate the different ways of navigating to the Login page @master  @regression", async ({}, testInfo) => {
+
+test("Validate the different ways of navigating to the Login page @master  @regression", async ({}, testInfo) => {
   setTestCaseId(testInfo, "TC_LF_020");
+
+  expect(loginPage.hasNewCustomerHeader()).toBeTruthy();
+  expect(loginPage.hasReturningCustomerHeader).toBeTruthy();
+
+  loginPage = await loginPage.myAccountRightLinks.clickLogin();
+  expect(loginPage.hasNewCustomerHeader()).toBeTruthy();
+  expect(loginPage.hasReturningCustomerHeader).toBeTruthy();
+
+  const registrationPage = await loginPage.myAccountRightLinks.clickRegister();
+  loginPage = await registrationPage.clickAlreadyHaveAnAccountLoginPag();
+  expect(loginPage.hasNewCustomerHeader()).toBeTruthy();
+  expect(loginPage.hasReturningCustomerHeader).toBeTruthy();
 });
+
+
 test.skip("Validate the Breakcrumb, Page Heading, Page Title and Page URL of Login page @master  @regression", async ({}, testInfo) => {
   setTestCaseId(testInfo, "TC_LF_021");
 });
 
+//Incomplete Expected Results Reference to what is expected UI
 test.skip("Validate the UI of the Login page @master  @regression", async ({}, testInfo) => {
   setTestCaseId(testInfo, "TC_LF_022");
 });

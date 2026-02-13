@@ -4,7 +4,6 @@ import { RegistrationPage } from "../RegistrationPage";
 import { LoginPage } from "../LoginPage";
 import { LogoutPage } from "../LogoutPage";
 
-
 // Widget of the drop down My Account menu that is found on all pages
 export class MyAccountMenu {
   private readonly page: Page;
@@ -19,8 +18,8 @@ export class MyAccountMenu {
   //Logged In Menu Items
   private readonly linkMyAccount: Locator;
   private readonly linkOrderHistory: Locator;
-  private readonly Transactions: Locator;
-  private readonly Downloads: Locator;
+  private readonly linkTransactions: Locator;
+  private readonly linkDownloads: Locator;
   private readonly linkLogout: Locator;
 
   constructor(page: Page) {
@@ -40,10 +39,10 @@ export class MyAccountMenu {
     this.linkOrderHistory = page.locator(
       'ul.dropdown-menu li a:has-text("Order History")',
     );
-    this.Transactions = page.locator(
+    this.linkTransactions = page.locator(
       'ul.dropdown-menu li a:has-text("Transactions")',
     );
-    this.Downloads = page.locator(
+    this.linkDownloads = page.locator(
       'ul.dropdown-menu li a:has-text("Downloads")',
     );
 
@@ -125,38 +124,65 @@ export class MyAccountMenu {
     return false;
   }
 
-  //Expands the drop down and checks the links found; if they match those found in a logged in account true is returned.
+  
   async hasMyAccountMenuForLoggedInUser(): Promise<boolean> {
+    return await this.isLoggedInUserMenu();
+  }
+
+  async hasMyAccountMenuForLoggedOutUser(): Promise<boolean> {
+    return await !this.isLoggedInUserMenu();
+  }
+
+  private async isLoggedInUserMenu(): Promise<boolean> {
+    await this.expandMyAccountDropdown();
+    return await this.linkLogout.isVisible();
+  }
+
+
+
+  async hasAllLoggedOutUserLinks(): Promise<boolean> {
     try {
-      let isLoggedIn = false;
+      let isLoggedOut = true;
       await this.expandMyAccountDropdown();
 
-      if (await this.linkMyAccount.isVisible()) isLoggedIn = true;
-      
-      return isLoggedIn;
+      if (!(await this.linkMyAccount.isVisible())) isLoggedOut = false;
+      if (!(await this.linkOrderHistory.isVisible())) isLoggedOut = false;
+      if (!(await this.linkTransactions.isVisible())) isLoggedOut = false;
+      if (!(await this.linkDownloads.isVisible())) isLoggedOut = false;
+      if (!(await this.linkLogout.isVisible())) isLoggedOut = false;
+
+      return isLoggedOut;
     } catch (error) {
       console.log(
-        `Error when checking if My Account menu is for logged in user: ${error}`,
+        `Error when checking all My Account menu links is for logged out user: ${error}`,
       );
       throw error;
     }
     return false;
   }
-
-  async hasMyAccountMenuForLoggedOutUser(): Promise<boolean> {
+  
+  async hasAllLoggedIntUserLinks(): Promise<boolean> {
     try {
       let isLoggedOut = true;
       await this.expandMyAccountDropdown();
 
+      if (!(await this.linkRegister.isVisible())) isLoggedOut = false;
       if (!(await this.linkLogin.isVisible())) isLoggedOut = false;
 
       return isLoggedOut;
     } catch (error) {
       console.log(
-        `Error when checking if My Account menu is for logged out user: ${error}`,
+        `Error when checking all My Account menu links is for logged in user: ${error}`,
       );
       throw error;
     }
     return false;
   }
+
+
+
+
+
+
+
 }

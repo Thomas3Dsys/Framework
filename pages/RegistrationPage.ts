@@ -2,6 +2,7 @@ import { Page, Locator, expect } from "@playwright/test";
 import { MyAccountRightLinks } from "./Widgets/MyAccountRightLinks";
 import { MyAccountPage } from "./MyAccountPage";
 import { TopMenuSection } from "./Widgets/TopMenuSection";
+import { LoginPage } from "./LoginPage";
 
 export class RegistrationPage {
   private readonly page: Page;
@@ -28,6 +29,7 @@ export class RegistrationPage {
   private readonly textTelephoneLabel: Locator;
   private readonly textPasswordLabel: Locator;
   private readonly textConfirmPasswordLabel: Locator;
+  private readonly linkAlreadyUserLoginPage: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -59,6 +61,9 @@ export class RegistrationPage {
     this.textTelephoneLabel = page.locator("label[for='input-telephone']");
     this.textPasswordLabel = page.locator("label[for='input-password']");
     this.textConfirmPasswordLabel = page.locator("label[for='input-confirm']");
+    this.linkAlreadyUserLoginPage = page.getByRole("link", {
+      name: "login page",
+    });
   }
 
   private async getLabelBeforeDetails(
@@ -292,4 +297,20 @@ Checks if the red alert messages for the input boxes are shown based on thier te
     const alertLocator = this.page.locator(`.text-danger`).getByText(message);
     return await alertLocator.isVisible();
   }
+
+  async clickAlreadyHaveAnAccountLoginPag(): Promise<LoginPage> {
+    this.linkAlreadyUserLoginPage.click();
+    const loginPage = new LoginPage(this.page);
+    loginPage.waitForPageHeader();
+    return loginPage;
+  }
+
+
+
+
+
+
+
+
+  
 }
