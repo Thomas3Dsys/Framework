@@ -21,28 +21,13 @@ import { LoginPage } from "../pages/LoginPage";
 import { LogoutPage } from "../pages/LogoutPage";
 import { setTestCaseId } from "../utils/testcaseid";
 import { TopMenuSection } from "../pages/Widgets/TopMenuSection";
+import { UiMessages } from "../testdata/expectedMessages";
 
 let homePage: HomePage;
 let registrationPage: RegistrationPage;
 let myAccountPage: MyAccountPage;
 let config: TestConfig;
 let loginPage: LoginPage;
-
-const alertPrivacy = "Warning: You must agree to the Privacy Policy!";
-
-const inputValidationMessageFirstName =
-  "First Name must be between 1 and 32 characters!";
-const inputValidationMessageLastName =
-  "Last Name must be between 1 and 32 characters!";
-const inputValidationMessageEmail =
-  "E-Mail Address does not appear to be valid!";
-const inputValidationMessageTelephone =
-  "Telephone must be between 3 and 32 characters!";
-const inputValidationMessagePassword =
-  "Password must be between 4 and 20 characters!";
-const inputValidationMessageConfirmPassword =
-  "Password confirmation does not match password!";
-const warningEmailExists = "Warning: E-Mail Address is already registered!";
 
 test.beforeEach(async ({ page }) => {
   config = new TestConfig();
@@ -258,22 +243,22 @@ test("Validate messages on submit with no informaiton entered @negative @master 
   await registrationPage.topMenuSection.alerts.waitForAlert();
 
   const alertMessage = await registrationPage.topMenuSection.alerts.getAlertDangerMessage();
-  expect(alertMessage).toContain(alertPrivacy);
+  expect(alertMessage).toContain(UiMessages.privacyPolicyAgreeWarning);
 
   expect(
-    registrationPage.hasInputAlertMessage(inputValidationMessageFirstName),
+    registrationPage.hasInputAlertMessage(UiMessages.firstNameInputValidationMessage),
   ).toBeTruthy();
   expect(
-    registrationPage.hasInputAlertMessage(inputValidationMessageLastName),
+    registrationPage.hasInputAlertMessage(UiMessages.lastNameInputValidationMessage),
   ).toBeTruthy();
   expect(
-    registrationPage.hasInputAlertMessage(inputValidationMessageEmail),
+    registrationPage.hasInputAlertMessage(UiMessages.emailInputValidationMessage),
   ).toBeTruthy();
   expect(
-    registrationPage.hasInputAlertMessage(inputValidationMessageTelephone),
+    registrationPage.hasInputAlertMessage(UiMessages.telephoneInputValidationMessage),
   ).toBeTruthy();
   expect(
-    registrationPage.hasInputAlertMessage(inputValidationMessagePassword),
+    registrationPage.hasInputAlertMessage(UiMessages.passwordInputValidationMessage),
   ).toBeTruthy();
 });
 
@@ -308,7 +293,7 @@ test("Validate Registering an Account by entering different passwords into 'Pass
   await registrationPage.clickContinueRegistration();
   expect(
     registrationPage.hasInputAlertMessage(
-      inputValidationMessageConfirmPassword,
+      UiMessages.confirmPasswordInputValidationMessage,
     ),
   ).toBeTruthy();
 });
@@ -331,7 +316,7 @@ test("Validate Registering an Account by providing the existing account details 
   await registrationPage.topMenuSection.alerts.waitForAlert();
   const alertMessage =
     (await registrationPage.topMenuSection.alerts.getAlertDangerMessage()) || "";
-  expect(alertMessage).toContain(warningEmailExists);
+  expect(alertMessage).toContain(UiMessages.emailAreadyExistsWarning);
 });
 
 test("Validate Registering an Account by providing an invalid email address into the E-Mail field @master @sanity @regression", async ({}, testInfo) => {
@@ -353,7 +338,7 @@ test("Validate Registering an Account by providing an invalid email address into
   registrationPage.waitForPageHeader();
 
   expect(
-    registrationPage.hasInputAlertMessage(inputValidationMessageEmail),
+    registrationPage.hasInputAlertMessage(UiMessages.emailInputValidationMessage),
   ).toBeTruthy();
 });
 
@@ -374,19 +359,19 @@ test.skip("Validate Registering an Account by providing an invalid phone number 
   await registrationPage.setPrivacyPolicy();
   await registrationPage.clickContinueRegistration();
   expect(
-    registrationPage.hasInputAlertMessage(inputValidationMessageTelephone),
+    registrationPage.hasInputAlertMessage(UiMessages.telephoneInputValidationMessage),
   ).toBeTruthy();
 
   await registrationPage.setTelephone("111");
   await registrationPage.clickContinueRegistration();
   expect(
-    registrationPage.hasInputAlertMessage(inputValidationMessageTelephone),
+    registrationPage.hasInputAlertMessage(UiMessages.telephoneInputValidationMessage),
   ).toBeTruthy();
 
   await registrationPage.setTelephone("abcde");
   await registrationPage.clickContinueRegistration();
   expect(
-    registrationPage.hasInputAlertMessage(inputValidationMessageTelephone),
+    registrationPage.hasInputAlertMessage(UiMessages.telephoneInputValidationMessage),
   ).toBeTruthy();
 });
 

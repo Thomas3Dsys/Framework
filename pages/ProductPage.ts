@@ -2,9 +2,12 @@ import { Page, Locator, expect } from "@playwright/test";
 import { ShoppingCartPage } from "./ShoppingCartPage"; // Import ShoppingCartPage if needed
 import { TopMenuSection } from "./Widgets/TopMenuSection";
 
+import { Breadcrumbs } from "./Widgets/Breadcrumbs";
+
 export class ProductPage {
   private readonly page: Page;
   public readonly topMenuSection: TopMenuSection;
+  public readonly breadcumbs: Breadcrumbs;
 
   // Locators using CSS selectors
   private readonly txtQuantity: Locator;
@@ -16,6 +19,7 @@ export class ProductPage {
   constructor(page: Page) {
     this.page = page;
     this.topMenuSection = new TopMenuSection(this.page);
+    this.breadcumbs = new Breadcrumbs(this.page);
     // Initialize locators with CSS selectors
     this.txtQuantity = page.locator('input[name="quantity"]');
     this.btnAddToCart = page.locator("#button-cart");

@@ -20,7 +20,7 @@ export class RewardPointsPage {
     this.pageHeader = page.locator(
       "//h2[contains(text(), 'Your Reward Points')]",
     );
-    this.content = page.locator("//#content p");
+    this.content = page.locator("#content p");
     this.buttonContinue = page.locator("a:has-text('Continue')");
   }
 

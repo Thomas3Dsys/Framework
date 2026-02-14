@@ -1,14 +1,15 @@
 import { Page, Locator, expect } from "@playwright/test";
-
+import { Breadcrumbs } from "./Widgets/Breadcrumbs";
 
 export class ForgottenPasswordPage {
 
   private readonly page: Page;
 private readonly pageHeader: Locator;
+  public readonly breadcumbs: Breadcrumbs;
 
   constructor(page: Page) {
     this.page = page;
-   
+   this.breadcumbs = new Breadcrumbs(this.page);
     this.pageHeader = page.locator("//h1[contains(text(), 'Forgot Your Password?')]");
   }
 

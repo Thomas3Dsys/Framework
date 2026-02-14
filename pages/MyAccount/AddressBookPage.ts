@@ -21,7 +21,7 @@ export class AddressBookPage {
     this.pageHeader = page.locator(
       "//h2[contains(text(), 'Address Book Entries')]",
     );
-    this.content = page.locator("//#content p");
+    this.content = page.locator("#content p");
     this.linkBack = page.locator("a:has-text('Back')");
     this.buttonContinue = page.locator('input[value="Continue"]');
   }

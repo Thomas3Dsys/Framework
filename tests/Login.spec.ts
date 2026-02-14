@@ -10,14 +10,14 @@ import { ForgottenPasswordPage } from "../pages/ForgottenPasswordPage";
 import { RandomDataUtil } from "../utils/randomDataGenerator";
 import { TopMenuSection } from "../pages/Widgets/TopMenuSection";
 import { RegistrationPage } from "../pages/RegistrationPage";
+import { UiMessages } from "../testdata/expectedMessages";
 
 let config: TestConfig;
 let homePage: HomePage;
 let loginPage: LoginPage;
 let myAccountPage: MyAccountPage;
 
-const successPasswordChangeMessage =
-  "Success: Your password has been successfully updated.";
+
 
 test.beforeEach(async ({ page }) => {
   config = new TestConfig();
@@ -152,8 +152,8 @@ test("Validate Logging into the Application after changing the password @master 
   console.log(`Updating to new password: ${newPassword}`);
   myAccountPage = await changePasswordPage.updatePassword(newPassword);
 
-  expect(await myAccountPage.alerts.getAlertSuccessMessage()).toContain(
-    successPasswordChangeMessage,
+  expect(await myAccountPage.topMenuSection.alerts.getAlertSuccessMessage()).toContain(
+    UiMessages.successPasswordChangeMessage,
   );
 
   await homePage.topMenuSection.myAccountMenu.Logout();

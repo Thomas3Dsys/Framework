@@ -20,7 +20,7 @@ export class AccountDownloadsPage {
     this.pageHeader = page.locator(
       "//h2[contains(text(), 'Account Downloads')]",
     );
-    this.content = page.locator("//#content p");
+    this.content = page.locator("#content p");
     this.buttonContinue = page.locator("a:has-text('Continue')");
   }
 

@@ -7,17 +7,12 @@ import { LogoutPage } from "../pages/LogoutPage";
 import { setTestCaseId } from "../utils/testcaseid";
 import { Database } from "../utils/database";
 import { TopMenuSection } from "../pages/Widgets/TopMenuSection";
+import { UiMessages } from "../testdata/expectedMessages";
 
 let config: TestConfig;
 let homePage: HomePage;
 let loginPage: LoginPage;
 let myAccountPage: MyAccountPage;
-
-//todo: move these to a messages class in its own file
-const invalidLoginMessage =
-  "Warning: No match for E-Mail Address and/or Password.";
-const exceededLoginAttempts =
-  "Warning: Your account has exceeded allowed number of login attempts. Please try again in 1 hour.";
 
 test.beforeEach(async ({ page }) => {
   config = new TestConfig();
@@ -47,7 +42,7 @@ test("Validate logging into the Application using invalid credentials (i.e. Inva
   await loginPage.clickLogin();
 
   expect(await loginPage.topMenuSection.alerts.getAlertDangerMessage()).toBe(
-    invalidLoginMessage,
+    UiMessages.invalidLoginMessage,
   );
 });
 
@@ -58,7 +53,7 @@ test("Validate logging into the Application using invalid email address and vali
   await loginPage.clickLogin();
 
   expect(await loginPage.topMenuSection.alerts.getAlertDangerMessage()).toBe(
-    invalidLoginMessage,
+    UiMessages.invalidLoginMessage,
   );
 });
 
@@ -70,7 +65,7 @@ test("Validate logging into the Application using valid email address and invali
   await loginPage.clickLogin();
 
   expect(await loginPage.topMenuSection.alerts.getAlertDangerMessage()).toBe(
-    invalidLoginMessage,
+    UiMessages.invalidLoginMessage,
   );
 });
 test("Validate logging into the Application without providing any credentials @master @regression", async ({}, testInfo) => {
@@ -79,7 +74,7 @@ test("Validate logging into the Application without providing any credentials @m
   await loginPage.clickLogin();
 
   expect(await loginPage.topMenuSection.alerts.getAlertDangerMessage()).toBe(
-    invalidLoginMessage,
+    UiMessages.invalidLoginMessage,
   );
 });
 
@@ -101,14 +96,14 @@ test("Validate logging into the Application using inactive credentials @master @
   await loginPage.clickLogin();
 
   //May get exceededLoginAttempts message here if test case has been run recently
-  expect(loginPage.topMenuSection.alerts.getAlertDangerMessage()).toContain(invalidLoginMessage);
+  expect(loginPage.topMenuSection.alerts.getAlertDangerMessage()).toContain(UiMessages.invalidLoginMessage);
   page.waitForTimeout(3000);
 
   await loginPage.setEmail(invalidEmail);
   await loginPage.setPassword(invalidPassword);
   await loginPage.clickLogin();
 
-  expect(loginPage.topMenuSection.alerts.getAlertDangerMessage()).toContain(invalidLoginMessage);
+  expect(loginPage.topMenuSection.alerts.getAlertDangerMessage()).toContain(UiMessages.invalidLoginMessage);
   page.waitForTimeout(3000);
 
   await loginPage.setEmail(invalidEmail);
@@ -116,7 +111,7 @@ test("Validate logging into the Application using inactive credentials @master @
   await loginPage.clickLogin();
 
   expect(loginPage.topMenuSection.alerts.getAlertDangerMessage()).toContain(
-    exceededLoginAttempts,
+    UiMessages.exceededLoginAttempts,
   );
 });
 

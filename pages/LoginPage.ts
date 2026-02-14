@@ -5,15 +5,15 @@ import { ForgottenPasswordPage } from "./ForgottenPasswordPage";
 import { Alerts } from "../pages/Widgets/Alerts";
 import { TopMenuSection } from "./Widgets/TopMenuSection";
 import { MyAccountRightLinks } from "./Widgets/MyAccountRightLinks";
-  
-
+import { Breadcrumbs } from "./Widgets/Breadcrumbs";
 
 export class LoginPage {
   private readonly page: Page;
+  public readonly breadcumbs: Breadcrumbs;
 
   public readonly topMenuSection: TopMenuSection;
   public myAccountRightLinks: MyAccountRightLinks;
-   
+
   // Locators
   private readonly textEmailAddress: Locator;
   private readonly textPassword: Locator;
@@ -23,14 +23,13 @@ export class LoginPage {
   private readonly newCustomerSectionHeader: Locator;
   private readonly returningCustomerSectionHeader: Locator;
   private readonly linkForgottenPassword: Locator;
-  
 
   constructor(page: Page) {
     this.page = page;
-       
-  this.topMenuSection = new TopMenuSection(this.page);
-  this.myAccountRightLinks = new MyAccountRightLinks(this.page);
-    
+
+    this.topMenuSection = new TopMenuSection(this.page);
+    this.myAccountRightLinks = new MyAccountRightLinks(this.page);
+    this.breadcumbs = new Breadcrumbs(this.page);
     // Initialize locators with CSS selectors
     this.textEmailAddress = page.locator("#input-email");
     this.textPassword = page.locator("#input-password");
@@ -51,7 +50,7 @@ export class LoginPage {
   /*
    waits for the expected page header to be visible, indicating that the logout page has loaded successfully
   */
-async waitForPageHeader(timeout:number = 5000): Promise<void> {
+  async waitForPageHeader(timeout: number = 5000): Promise<void> {
     await this.newCustomerSectionHeader.waitFor({
       state: "visible",
       timeout: timeout,
@@ -155,17 +154,15 @@ async waitForPageHeader(timeout:number = 5000): Promise<void> {
   async getEmailPlaceholder(): Promise<string | null> {
     return await this.textEmailAddress.getAttribute("placeholder");
   }
-    async getPasswordPlaceholder(): Promise<string | null> {
+  async getPasswordPlaceholder(): Promise<string | null> {
     return await this.textPassword.getAttribute("placeholder");
   }
 
-async hasNewCustomerHeader() :Promise<boolean>{
- return await this.newCustomerSectionHeader.isVisible();
-}
+  async hasNewCustomerHeader(): Promise<boolean> {
+    return await this.newCustomerSectionHeader.isVisible();
+  }
 
-async hasReturningCustomerHeader(): Promise<boolean>{
-  return await this.returningCustomerSectionHeader.isVisible();
-}
-
-
+  async hasReturningCustomerHeader(): Promise<boolean> {
+    return await this.returningCustomerSectionHeader.isVisible();
+  }
 }

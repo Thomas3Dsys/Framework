@@ -2,7 +2,7 @@ import { Page, Locator, expect } from "@playwright/test";
 import { TopMenuSection } from "../Widgets/TopMenuSection";
 import { MyAccountRightLinks } from "../Widgets/MyAccountRightLinks";
 import { MyAccountPage } from "../MyAccountPage";
-
+import { Breadcrumbs } from "../Widgets/Breadcrumbs";
 export class WishListPage {
   private readonly page: Page;
   public readonly topMenuSection: TopMenuSection;
@@ -12,14 +12,16 @@ export class WishListPage {
   private readonly linkBack: Locator;
   private readonly buttonContinue: Locator;
   private readonly content: Locator;
+  public readonly breadcumbs: Breadcrumbs;
 
   constructor(page: Page) {
     this.page = page;
     this.topMenuSection = new TopMenuSection(this.page);
     this.myAccountRightLinks = new MyAccountRightLinks(this.page);
+    this.breadcumbs = new Breadcrumbs(this.page);
 
     this.pageHeader = page.locator("//h2[contains(text(), 'My Wish List')]");
-    this.content = page.locator("//#content p");
+    this.content = page.locator("#content p");
     this.linkBack = page.locator("a:has-text('Back')");
     this.buttonContinue = page.locator('input[value="Continue"]');
   }

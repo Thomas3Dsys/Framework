@@ -1,5 +1,5 @@
 import { Page, Locator, expect } from "@playwright/test";
-import { LogoutPage } from "./LogoutPage"; 
+import { LogoutPage } from "./LogoutPage";
 import { AddressBookPage } from "../pages/MyAccount/AddressBookPage";
 import { WishListPage } from "../pages/MyAccount/WishListPage";
 import { OrderHistoryPage } from "../pages/MyAccount/OrderHistoryPage";
@@ -13,11 +13,13 @@ import { ChangePasswordPage } from "../pages/MyAccount/ChangePasswordPage";
 import { TopMenuSection } from "./Widgets/TopMenuSection";
 import { MyAccountRightLinks } from "./Widgets/MyAccountRightLinks";
 import { AffiliateInformationPage } from "./MyAccount/AffiliateInformationPage";
+import { Breadcrumbs } from "./Widgets/Breadcrumbs";
 
 export class MyAccountPage {
   private readonly page: Page;
   public readonly topMenuSection: TopMenuSection;
   public myAccountRightLinks: MyAccountRightLinks;
+  public readonly breadcumbs: Breadcrumbs;
 
   // Locators using CSS selectors
   private readonly linkLogout: Locator;
@@ -39,7 +41,7 @@ export class MyAccountPage {
     this.page = page;
     this.topMenuSection = new TopMenuSection(this.page);
     this.myAccountRightLinks = new MyAccountRightLinks(this.page);
-
+    this.breadcumbs = new Breadcrumbs(this.page);
     // Initialize locators with CSS selectors
     this.pageHeader = page.locator("//h2[contains(text(), 'My Account')]");
     this.linkLogout = page.locator("text='Logout'").nth(1);

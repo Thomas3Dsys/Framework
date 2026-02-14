@@ -108,7 +108,7 @@ export class MyAccountMenu {
   /* Tries to logout if the logout link is visible under My Account dropdown. 
   Returns true if logout was done, false if not needed because user was not logged in.
   */
-  async Logout(): Promise<boolean> {
+  async tryLogout(): Promise<boolean> {
     //update to return Account logout page
     try {
       await this.expandMyAccountDropdown();
@@ -124,7 +124,22 @@ export class MyAccountMenu {
     return false;
   }
 
-  
+
+  //Pre-requisite : User is logged in
+  async doLogout(): Promise<LogoutPage> {
+    //update to return Account logout page
+    try {
+        await this.expandMyAccountDropdown();
+        await this.linkLogout.click();
+        const logoutPage = new LogoutPage(this.page);
+        await logoutPage.waitForPageHeader();
+        return logoutPage;
+    } catch (error) {
+      console.log(`Exception occurred while clicking 'Logout' and returning logout page: ${error}`);
+      throw error;
+        }
+      }
+
   async hasMyAccountMenuForLoggedInUser(): Promise<boolean> {
     return await this.isLoggedInUserMenu();
   }
@@ -140,18 +155,18 @@ export class MyAccountMenu {
 
 
 
-  async hasAllLoggedOutUserLinks(): Promise<boolean> {
+  async hasAllLoggedInUserLinks(): Promise<boolean> {
     try {
-      let isLoggedOut = true;
+      let isLoggedIn = true;
       await this.expandMyAccountDropdown();
 
-      if (!(await this.linkMyAccount.isVisible())) isLoggedOut = false;
-      if (!(await this.linkOrderHistory.isVisible())) isLoggedOut = false;
-      if (!(await this.linkTransactions.isVisible())) isLoggedOut = false;
-      if (!(await this.linkDownloads.isVisible())) isLoggedOut = false;
-      if (!(await this.linkLogout.isVisible())) isLoggedOut = false;
+      if (!(await this.linkMyAccount.isVisible())) isLoggedIn = false;
+      if (!(await this.linkOrderHistory.isVisible())) isLoggedIn = false;
+      if (!(await this.linkTransactions.isVisible())) isLoggedIn = false;
+      if (!(await this.linkDownloads.isVisible())) isLoggedIn = false;
+      if (!(await this.linkLogout.isVisible())) isLoggedIn = false;
 
-      return isLoggedOut;
+      return isLoggedIn;
     } catch (error) {
       console.log(
         `Error when checking all My Account menu links is for logged out user: ${error}`,
@@ -161,7 +176,7 @@ export class MyAccountMenu {
     return false;
   }
   
-  async hasAllLoggedIntUserLinks(): Promise<boolean> {
+  async hasAllLoggedOutUserLinks(): Promise<boolean> {
     try {
       let isLoggedOut = true;
       await this.expandMyAccountDropdown();

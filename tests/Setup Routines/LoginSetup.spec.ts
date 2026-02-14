@@ -15,7 +15,7 @@ import { HomePage } from "../../pages/HomePage";
 import { LoginPage } from "../../pages/LoginPage";
 import { MyAccountPage } from "../../pages/MyAccountPage";
 import { TestConfig } from "../../test.config";
-import { Database } from "../utils/database";
+import { Database } from "../../utils/database";
 import { DataProvider } from "../../utils/dataProvider";
 import { RegistrationPage } from "../../pages/RegistrationPage";
 
@@ -40,7 +40,7 @@ async function doUserCreation(
   await page.goto(config.appUrl); //Navigate to application URL
   homePage = new HomePage(page);
 
-  registrationPage =await homePage.navigateRegister()
+  registrationPage =await homePage.topMenuSection.myAccountMenu.navigateRegister()
 
   //Fill in registration details with random data
   await registrationPage.setFirstName(config.firstName);

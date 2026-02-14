@@ -1,8 +1,10 @@
 import { Page, expect, Locator } from '@playwright/test';
+import { Breadcrumbs } from "./Widgets/Breadcrumbs";
 
 export class CheckoutPage {
     private readonly page: Page;
     
+  public readonly breadcumbs: Breadcrumbs;
     // Locators
     private readonly radioGuest: Locator;
     private readonly btnContinue: Locator;
@@ -26,7 +28,7 @@ export class CheckoutPage {
 
     constructor(page: Page) {
         this.page = page;
-        
+        this.breadcumbs = new Breadcrumbs(this.page);
         // Initialize locators with CSS selectors
         this.radioGuest = page.locator('input[value="guest"]');
         this.btnContinue = page.locator('#button-account');

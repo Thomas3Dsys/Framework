@@ -4,10 +4,13 @@ import { MyAccountPage } from "./MyAccountPage";
 import { TopMenuSection } from "./Widgets/TopMenuSection";
 import { LoginPage } from "./LoginPage";
 
+import { Breadcrumbs } from "./Widgets/Breadcrumbs";
+
 export class RegistrationPage {
   private readonly page: Page;
   public readonly topMenuSection: TopMenuSection;
   public myAccountRightMenu: MyAccountRightLinks;
+  public readonly breadcumbs: Breadcrumbs;
 
   // Locators using CSS selectors
   private readonly textFirstname: Locator;
@@ -35,6 +38,7 @@ export class RegistrationPage {
     this.page = page;
     this.topMenuSection = new TopMenuSection(this.page);
     this.myAccountRightMenu = new MyAccountRightLinks(this.page);
+    this.breadcumbs = new Breadcrumbs(this.page);
 
     // Initialize locators with selectors
     this.textFirstname = page.locator("#input-firstname");

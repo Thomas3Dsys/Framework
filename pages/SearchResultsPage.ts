@@ -2,9 +2,12 @@ import { Page, Locator } from '@playwright/test';
 import { ProductPage } from './ProductPage'; // Import ProductPage if needed
 import { TopMenuSection } from "./Widgets/TopMenuSection";
 
+import { Breadcrumbs } from "./Widgets/Breadcrumbs";
+
 export class SearchResultsPage {
     private readonly page: Page;
     private readonly topMenuSection : TopMenuSection;
+  public readonly breadcumbs: Breadcrumbs;
 
     // Locators using CSS selectors
     private readonly searchPageHeader: Locator;
@@ -13,6 +16,7 @@ export class SearchResultsPage {
     constructor(page: Page) {
         this.page = page;
         this.topMenuSection = new TopMenuSection(this.page);
+    this.breadcumbs = new Breadcrumbs(this.page);
         // Initialize locators with CSS selectors
         this.searchPageHeader = page.locator('#content h1');
         this.searchProducts = page.locator('h4>a');
