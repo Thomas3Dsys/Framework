@@ -46,7 +46,7 @@ test.afterEach(async ({ page }) => {
   await page.close();
 });
 
-test("Validate login into the Application using valid credentials @master @sanity @regression", async ({}, testInfo) => {
+test("Validate login into the Application using valid credentials @ci @master @sanity @regression", async ({}, testInfo) => {
   setTestCaseId(testInfo, "TC_LF_001");
 
   await loginPage.setEmail(config.email);
