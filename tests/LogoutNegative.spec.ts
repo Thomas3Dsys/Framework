@@ -8,7 +8,6 @@ import { setTestCaseId } from "../utils/testcaseid";
 
 /** Test Where the user is not expected to be logged in already */
 
-
 // Declare shared variables
 let config: TestConfig;
 let homePage: HomePage;
@@ -23,9 +22,6 @@ test.beforeEach(async ({ page }) => {
 
   // Initialize page objects
   homePage = new HomePage(page);
-  logoutPage = new LogoutPage(page);
-  loginPage = new LoginPage(page);
-
 });
 
 // Optional cleanup after each test
@@ -37,12 +33,18 @@ test("Validate Logout option is not displayed under 'My Account' menu before log
   setTestCaseId(testInfo, "TC_LG_005");
   //	1. Click on 'My Account' Dropmenu  (Verify ER-1)
   // //	1. Logout option should not be displayed under 'My Account' dropmenu
+  expect(
+    await homePage.topMenuSection.myAccountMenu.hasAllLogoutLink(),
+  ).toBeFalsy();
 });
+
 test("Validate Logout option is not displayed under 'Right Column' options before logging in	-", async ({}, testInfo) => {
   setTestCaseId(testInfo, "TC_LG_006");
   //	"1. Click on 'My Account' Dropmenu
   //2. Select 'Regiser' option (Verify ER-1)"
+
+const registrationPage = await homePage.topMenuSection.myAccountMenu.navigateRegister();
+
   //	1. Logout option should not be displayed in the 'Right Column'
+  expect(await registrationPage.myAccountRightLinks.hasLogoutLink()).toBeFalsy();
 });
-
-

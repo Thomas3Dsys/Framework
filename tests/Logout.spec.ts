@@ -72,7 +72,11 @@ test("Validate Logging out by selecting Logout option from 'Right Column' option
   homePage = await logoutPage.clickContinue();
   expect(await homePage.isHomePageExists()).toBeTruthy();
 });
-test.fil("Validate the Application session status, after logging and closing the Browser without logging out", async ({
+
+
+
+//in Playwright, the user does get logged out when the browser is closed.
+test.fail("Validate the Application session status, after logging and closing the Browser without logging out", async ({
   page,
   browser,
 }, testInfo) => {
@@ -152,19 +156,15 @@ test("Validate logging out and loggin in immediately after logout", async ({}, t
 test("Validate 'Account Logout' page", async ({ page }, testInfo) => {
   setTestCaseId(testInfo, "TC_LG_009");
   expect(await myAccountPage.doesPageExist()).toBeTruthy();
-  //	"1. Click on 'My Account' Dropmenu
-  // 2. Select 'Logout' option
   logoutPage = await myAccountPage.topMenuSection.myAccountMenu.doLogout();
-  // 3. Check the Page Heading, Page Title, Page URL and Breadcrumb of the displayed 'Account Logout' page (Verify ER-1)"
-  //        ER-1. Proper Page Heading, Page Title, Page URL and Breadcrumb are displayed for 'Account Logout' page
 
   logoutPage.hasExpectedHeader();
-  expect(await page.title()).toBe(PageDetails.logoutPageTitle);
-  expect(await page.url()).toContain(PageDetails.logoutPageUrl);
-  const expectedBreadcrumbs = ["Account", "Logout"];
+  expect(await page.title()).toBe(PageDetails.logout.title);
+  expect(await page.url()).toContain(PageDetails.logout.url);
+  
   const actualBreadcrumbs = await logoutPage.breadcumbs.getBreadcrumbs();
   expect(
-    Compare.CheckBreadcrumbs(expectedBreadcrumbs, actualBreadcrumbs),
+    Compare.CheckBreadcrumbs(PageDetails.logout.breadcrumb, actualBreadcrumbs),
   ).toBeTruthy();
 });
 

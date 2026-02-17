@@ -85,26 +85,30 @@ export class MyAccountRightLinks {
 
   async hasAllLinks(isLoggedIn: boolean = false): Promise<boolean> {
     if (!isLoggedIn) {
-      if (!this.linkLogin.isVisible()) return false;
+      if (await !this.linkLogin.isVisible()) return false;
     }
-    if (!this.linkRegister.isVisible()) return false;
-    if (!this.linkForgottenPassword.isVisible()) return false;
-    if (!this.linkMyAccount.isVisible()) return false;
-    if (!this.linkAddressBook.isVisible()) return false;
-    if (!this.linkWishList.isVisible()) return false;
-    if (!this.linkOrderHistory.isVisible()) return false;
-    if (!this.linkDownloads.isVisible()) return false;
-    if (!this.linkRecurringpayments.isVisible()) return false;
-    if (!this.linkRewardPoints.isVisible()) return false;
-    if (!this.linkReturns.isVisible()) return false;
-    if (!this.linkTransactions.isVisible()) return false;
-    if (!this.linkNewsletter.isVisible()) return false;
+    if (await !this.linkRegister.isVisible()) return false;
+    if (await !this.linkForgottenPassword.isVisible()) return false;
+    if (await !this.linkMyAccount.isVisible()) return false;
+    if (await !this.linkAddressBook.isVisible()) return false;
+    if (await !this.linkWishList.isVisible()) return false;
+    if (await !this.linkOrderHistory.isVisible()) return false;
+    if (await !this.linkDownloads.isVisible()) return false;
+    if (await !this.linkRecurringpayments.isVisible()) return false;
+    if (await !this.linkRewardPoints.isVisible()) return false;
+    if (await !this.linkReturns.isVisible()) return false;
+    if (await !this.linkTransactions.isVisible()) return false;
+    if (await !this.linkNewsletter.isVisible()) return false;
 
     if (isLoggedIn) {
-      if (!this.linkLogout.isVisible()) return false;
+      if (await !this.linkLogout.isVisible()) return false;
     }
 
     return true;
+  }
+
+  async hasLogoutLink(isLoggedIn: boolean = false): Promise<boolean> {
+    return await this.linkLogout.isVisible();
   }
 
   async clickMyAccount(): Promise<MyAccountPage> {
@@ -197,7 +201,7 @@ export class MyAccountRightLinks {
     }
   }
 
-    async clickLogout(): Promise<LogoutPage> {
+  async clickLogout(): Promise<LogoutPage> {
     try {
       await this.linkLogout.click();
       return new LogoutPage(this.page);

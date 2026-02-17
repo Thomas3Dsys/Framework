@@ -3,13 +3,12 @@ import { MyAccountRightLinks } from "./Widgets/MyAccountRightLinks";
 import { MyAccountPage } from "./MyAccountPage";
 import { TopMenuSection } from "./Widgets/TopMenuSection";
 import { LoginPage } from "./LoginPage";
-
 import { Breadcrumbs } from "./Widgets/Breadcrumbs";
 
 export class RegistrationPage {
   private readonly page: Page;
   public readonly topMenuSection: TopMenuSection;
-  public myAccountRightMenu: MyAccountRightLinks;
+  public readonly myAccountRightLinks: MyAccountRightLinks;
   public readonly breadcumbs: Breadcrumbs;
 
   // Locators using CSS selectors
@@ -37,7 +36,7 @@ export class RegistrationPage {
   constructor(page: Page) {
     this.page = page;
     this.topMenuSection = new TopMenuSection(this.page);
-    this.myAccountRightMenu = new MyAccountRightLinks(this.page);
+    this.myAccountRightLinks = new MyAccountRightLinks(this.page);
     this.breadcumbs = new Breadcrumbs(this.page);
 
     // Initialize locators with selectors
@@ -52,7 +51,7 @@ export class RegistrationPage {
     this.linkContinue = page.locator('a:has-text("Continue")');
 
     this.messageConfirmation = page.locator(
-      'h1:has-text("Your Account Has Been Created!")',
+      '#content h1',
     );
     this.radiobuttonNewsletterYes = page.getByRole("radio", { name: "Yes" });
     this.radiobuttonNewsletterNo = page.getByRole("radio", { name: "No" });
@@ -99,7 +98,7 @@ export class RegistrationPage {
     await this.pageHeader.waitFor({ state: "visible", timeout: timeout });
   }
 
-  async hasExpectedPageHeader(): Promise<boolean> {
+  async hasExpectedHeader(): Promise<boolean> {
     try {
       return await this.pageHeader.isVisible();
     } catch (error) {
@@ -238,6 +237,14 @@ export class RegistrationPage {
       await this.radiobuttonNewsletterNo.check();
     }
   }
+
+ /**
+   * Clicks the Continue button
+   */
+  async tryClickContinueAccountCreated(): Promise<void> {
+    await this.buttonContinue.click();
+  }
+
 
   /**
    * Clicks the Continue button

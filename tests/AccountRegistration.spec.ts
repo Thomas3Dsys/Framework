@@ -21,7 +21,9 @@ import { LoginPage } from "../pages/LoginPage";
 import { LogoutPage } from "../pages/LogoutPage";
 import { setTestCaseId } from "../utils/testcaseid";
 import { TopMenuSection } from "../pages/Widgets/TopMenuSection";
-import { UiMessages } from "../testdata/expectedMessages";
+import {UiMessages} from "../data/expectedMessages"
+import { Compare } from "../utils/compare";
+import { PageDetails } from "../data/pageDetails";
 
 let homePage: HomePage;
 let registrationPage: RegistrationPage;
@@ -38,7 +40,7 @@ test.beforeEach(async ({ page }) => {
 
 test.afterEach(async ({ page }) => {
   const topMenuSection = new TopMenuSection(page);
-  if (await topMenuSection.myAccountMenu.Logout()) {
+  if (await topMenuSection.myAccountMenu.tryLogout()) {
     const logoutPage = new LogoutPage(page);
     await logoutPage.waitForPageHeader();
   }
@@ -239,7 +241,7 @@ test("Validate messages on submit with no informaiton entered @negative @master 
   //Go to 'My Account' and click 'Register'
 
   registrationPage = await homePage.topMenuSection.myAccountMenu.navigateRegister();
-  await registrationPage.clickContinueAccountCreated();
+  await registrationPage.tryClickContinueAccountCreated();
   await registrationPage.topMenuSection.alerts.waitForAlert();
 
   const alertMessage = await registrationPage.topMenuSection.alerts.getAlertDangerMessage();
@@ -265,14 +267,14 @@ test("Validate messages on submit with no informaiton entered @negative @master 
 test("Navigate to RegistrationPage @master @sanity @regression", async ({}, testInfo) => {
   setTestCaseId(testInfo, "TC_RF_007");
   registrationPage = await homePage.topMenuSection.myAccountMenu.navigateRegister();
-  expect(registrationPage.hasExpectedPageHeader()).toBeTruthy();
+  expect(registrationPage.hasExpectedHeader()).toBeTruthy();
 
   loginPage = await registrationPage.topMenuSection.myAccountMenu.navigateLogin();
   registrationPage = await loginPage.newCustomerClickContinue();
-  expect(await registrationPage.hasExpectedPageHeader()).toBeTruthy();
+  expect(await registrationPage.hasExpectedHeader()).toBeTruthy();
 
-  registrationPage = await registrationPage.myAccountRightMenu.clickRegister();
-  expect(await registrationPage.hasExpectedPageHeader()).toBeTruthy();
+  registrationPage = await registrationPage.myAccountRightLinks.clickRegister();
+  expect(await registrationPage.hasExpectedHeader()).toBeTruthy();
 });
 
 
@@ -392,6 +394,26 @@ test("Validate all the fields in the Register Account page have the proper place
     "Password Confirm",
   );
 });
+
+test("Validate the Breadcrumb, Page Heading, Page URL, Page Title of 'Register Account' Page @master @regression", async ({page}, testInfo) => {
+  setTestCaseId(testInfo, "TC_RF_025");
+
+  registrationPage = await homePage.topMenuSection.myAccountMenu.navigateRegister();
+
+  registrationPage.hasExpectedHeader();
+  expect(await page.title()).toBe(PageDetails.registration.title);
+  expect(await page.url()).toBe(PageDetails.registration.url);
+
+  
+  const actualBreadcrumbs = await registrationPage.breadcumbs.getBreadcrumbs();
+  expect(
+    Compare.CheckBreadcrumbs(PageDetails.registration.breadcrumb, actualBreadcrumbs),
+  ).toBeTruthy();
+
+
+});
+
+
 
 const browsers = ["chromium", "firefox", "webkit"] as const;
 

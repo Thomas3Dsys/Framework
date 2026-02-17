@@ -61,6 +61,20 @@ export class LoginPage {
     });
   }
 
+
+  async hasExpectedHeaders(): Promise<boolean> {
+    try {
+      let hasHeaders = true;
+      if(!this.newCustomerSectionHeader.isVisible()) hasHeaders = false;
+      if(!this.returningCustomerSectionHeader.isVisible()) hasHeaders = false;
+      return hasHeaders;
+    } catch (error) {
+      console.log(`Error checking expected header: ${error}`);
+      throw error;
+    }
+  }
+
+
   /**
    * Sets the email address in the email field
    * @param email - Email address to enter

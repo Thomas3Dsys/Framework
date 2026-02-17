@@ -28,7 +28,7 @@ test.beforeEach(async ({ page }) => {
 
 test.afterEach(async ({ page }) => {
   const topMenuSection = new TopMenuSection(page);
-  if (await topMenuSection.myAccountMenu.Logout()) {
+  if (await topMenuSection.myAccountMenu.tryLogout()) {
     const logoutPage = new LogoutPage(page);
     await logoutPage.waitForPageHeader();
   }

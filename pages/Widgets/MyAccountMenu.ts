@@ -64,11 +64,20 @@ export class MyAccountMenu {
         await this.dropdownMyAccount.click();
       }
     } catch (error) {
-      console.log(`Exception occurred while clicking 'My Account': ${error}`);
+      console.log(`Exception occurred while expanding 'My Account': ${error}`);
       throw error;
     }
   }
-
+  async collapseMyAccountDropdown() {
+    try {
+      if (await this.dropdownContainer.isVisible()) {
+        await this.dropdownMyAccount.click();
+      }
+    } catch (error) {
+      console.log(`Exception occurred while collapsing 'My Account': ${error}`);
+      throw error;
+    }
+  }
   // Expand drop down and Click "Register" link
   async navigateRegister(): Promise<RegistrationPage> {
     try {
@@ -111,12 +120,15 @@ export class MyAccountMenu {
   async tryLogout(): Promise<boolean> {
     //update to return Account logout page
     try {
+      let isExpanded = false;
       await this.expandMyAccountDropdown();
       if (await this.linkLogout.isVisible()) {
+        isExpanded = true;
         await this.linkLogout.click();
         const logoutPage = new LogoutPage(this.page);
         return true;
       }
+      if (isExpanded) await this.collapseMyAccountDropdown();
     } catch (error) {
       console.log(`Exception occurred while clicking 'Logout': ${error}`);
       throw error;
@@ -124,38 +136,40 @@ export class MyAccountMenu {
     return false;
   }
 
-
   //Pre-requisite : User is logged in
   async doLogout(): Promise<LogoutPage> {
     //update to return Account logout page
     try {
-        await this.expandMyAccountDropdown();
-        await this.linkLogout.click();
-        const logoutPage = new LogoutPage(this.page);
-        await logoutPage.waitForPageHeader();
-        return logoutPage;
+      await this.expandMyAccountDropdown();
+      await this.linkLogout.click();
+      const logoutPage = new LogoutPage(this.page);
+      await logoutPage.waitForPageHeader();
+      return logoutPage;
     } catch (error) {
-      console.log(`Exception occurred while clicking 'Logout' and returning logout page: ${error}`);
+      console.log(
+        `Exception occurred while clicking 'Logout' and returning logout page: ${error}`,
+      );
       throw error;
-        }
-      }
-
-  async hasMyAccountMenuForLoggedInUser(): Promise<boolean> {
-    return await this.isLoggedInUserMenu();
+    }
   }
 
-  async hasMyAccountMenuForLoggedOutUser(): Promise<boolean> {
-    return await !this.isLoggedInUserMenu();
-  }
-
-  private async isLoggedInUserMenu(): Promise<boolean> {
+  public async isLoggedOutUserMenu(): Promise<Boolean> {
+    let isLoggedOut:Boolean = false;
     await this.expandMyAccountDropdown();
-    return await this.linkLogout.isVisible();
+    isLoggedOut =  await this.linkLogin.isVisible();
+    await this.collapseMyAccountDropdown();
+    return isLoggedOut;
+  }
+  
+  public async isLoggedInUserMenu(): Promise<Boolean> {
+    let isLoggedIn :Boolean= false;
+    await this.expandMyAccountDropdown();
+    isLoggedIn =  await this.linkLogout.isVisible();
+    await this.collapseMyAccountDropdown();
+    return isLoggedIn;
   }
 
-
-
-  async hasAllLoggedInUserLinks(): Promise<boolean> {
+  async hasAllLoggedInUserLinks(): Promise<Boolean> {
     try {
       let isLoggedIn = true;
       await this.expandMyAccountDropdown();
@@ -166,6 +180,8 @@ export class MyAccountMenu {
       if (!(await this.linkDownloads.isVisible())) isLoggedIn = false;
       if (!(await this.linkLogout.isVisible())) isLoggedIn = false;
 
+      await this.collapseMyAccountDropdown();
+
       return isLoggedIn;
     } catch (error) {
       console.log(
@@ -175,7 +191,22 @@ export class MyAccountMenu {
     }
     return false;
   }
-  
+
+  async hasAllLogoutLink(): Promise<boolean> {
+    try {
+      await this.expandMyAccountDropdown();
+      const hasLogout = await this.linkLogout.isVisible();
+      await this.collapseMyAccountDropdown();
+      return hasLogout;
+    } catch (error) {
+      console.log(
+        `Error when checking My Account ment has logout link: ${error}`,
+      );
+      throw error;
+    }
+    return false;
+  }
+
   async hasAllLoggedOutUserLinks(): Promise<boolean> {
     try {
       let isLoggedOut = true;
@@ -183,6 +214,8 @@ export class MyAccountMenu {
 
       if (!(await this.linkRegister.isVisible())) isLoggedOut = false;
       if (!(await this.linkLogin.isVisible())) isLoggedOut = false;
+
+      await this.collapseMyAccountDropdown();
 
       return isLoggedOut;
     } catch (error) {
@@ -193,11 +226,4 @@ export class MyAccountMenu {
     }
     return false;
   }
-
-
-
-
-
-
-
 }
