@@ -150,7 +150,7 @@ test("Validate registration with yes to subscription @master @regression", async
   expect(confirmationMsg).toContain("Your Account Has Been Created!");
 });
 
-test("Validate newsletter is subscribed after registration @master @regression", async ({}, testInfo) => {
+test("Validate newsletter is subscribed after registration  @sanity @master @regression", async ({}, testInfo) => {
   setTestCaseId(testInfo, "TC_RF_005");
   //Go to 'My Account' and click 'Register'
 
@@ -193,7 +193,7 @@ test("Validate newsletter is subscribed after registration @master @regression",
   expect(isSubscribed).toBeTruthy(); 
 });
 
-test("Validate newsletter is not subscribed after registration @master @regression", async ({}, testInfo) => {
+test("Validate newsletter is not subscribed after registration  @sanity @master @regression", async ({}, testInfo) => {
   setTestCaseId(testInfo, "TC_RF_006");
   //Go to 'My Account' and click 'Register'
 
@@ -236,7 +236,7 @@ test("Validate newsletter is not subscribed after registration @master @regressi
   expect(isSubscribed).toBeFalsy();
 });
 
-test("Validate messages on submit with no informaiton entered @negative @master @regression", async ({}, testInfo) => {
+test("Validate messages on submit with no informaiton entered @negative @sanity  @master @regression", async ({}, testInfo) => {
   setTestCaseId(testInfo, "TC_RF_004");
   //Go to 'My Account' and click 'Register'
 
@@ -345,7 +345,7 @@ test("Validate Registering an Account by providing an invalid email address into
 });
 
 //Application does not work to test case expectations
-test.skip("Validate Registering an Account by providing an invalid phone number @master @sanity @regression", async ({}, testInfo) => {
+test.skip("Validate Registering an Account by providing an invalid phone number @master @regression", async ({}, testInfo) => {
   setTestCaseId(testInfo, "TC_RF_011");
   registrationPage = await homePage.topMenuSection.myAccountMenu.navigateRegister();
   const password = RandomDataUtil.getPassword();
@@ -377,7 +377,7 @@ test.skip("Validate Registering an Account by providing an invalid phone number 
   ).toBeTruthy();
 });
 
-test.skip("Validate Registering an Account by using the Keyboard keys @master @sanity @regression", async ({}, testInfo) => {
+test.skip("Validate Registering an Account by using the Keyboard keys @master @regression", async ({}, testInfo) => {
   setTestCaseId(testInfo, "TC_RF_012");
 });
 
@@ -395,14 +395,14 @@ test("Validate all the fields in the Register Account page have the proper place
   );
 });
 
-test("Validate the Breadcrumb, Page Heading, Page URL, Page Title of 'Register Account' Page @master @regression", async ({page}, testInfo) => {
+test("Validate the Breadcrumb, Page Heading, Page URL, Page Title of 'Register Account' Page  @sanity @master @regression", async ({page}, testInfo) => {
   setTestCaseId(testInfo, "TC_RF_025");
 
   registrationPage = await homePage.topMenuSection.myAccountMenu.navigateRegister();
 
   registrationPage.hasExpectedHeader();
   expect(await page.title()).toBe(PageDetails.registration.title);
-  expect(await page.url()).toBe(PageDetails.registration.url);
+  expect(await page.url()).toContain(PageDetails.registration.url);
 
   
   const actualBreadcrumbs = await registrationPage.breadcumbs.getBreadcrumbs();

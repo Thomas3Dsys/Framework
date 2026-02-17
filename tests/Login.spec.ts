@@ -37,7 +37,7 @@ test.beforeEach(async ({ page }) => {
 test.afterEach(async ({ page }) => {
   const topMenuSection = new TopMenuSection(page);
 
-  if (await topMenuSection.myAccountMenu.hasMyAccountMenuForLoggedInUser()) {
+  if (await topMenuSection.myAccountMenu.hasLogoutLink()) {
     if (await topMenuSection.myAccountMenu.tryLogout()) {
       const logoutPage = new LogoutPage(page);
       await logoutPage.waitForPageHeader();
@@ -79,7 +79,7 @@ test("Validate E-Mail Address and Password text fields in the Login page have th
 });
 
 //will fail due to playwrights behavior with new pages
-test.skip("Validate Logging into the Application and browsing back using Browser back button  @master @sanity @regression", async ({
+test.skip("Validate Logging into the Application and browsing back using Browser back button  @master @regression", async ({
   page,
 }, testInfo) => {
   setTestCaseId(testInfo, "TC_LF_009");
@@ -89,19 +89,19 @@ test.skip("Validate Logging into the Application and browsing back using Browser
 
   homePage = new HomePage(page);
   expect(
-    homePage.topMenuSection.myAccountMenu.hasMyAccountMenuForLoggedInUser(),
+    homePage.topMenuSection.myAccountMenu.hasAllLoggedInUserLinks(),
   ).toBeTruthy();
 });
 
 //due to the way playwright browser works with back button
-test.fail("Validate Logging out from the Application and browsing back using Browser back button @master @sanity @regression", async ({
+test.fail("Validate Logging out from the Application and browsing back using Browser back button @master @regression", async ({
   page,
 }, testInfo) => {
   setTestCaseId(testInfo, "TC_LF_010");
 
   myAccountPage = await loginPage.login(config.email, config.password);
   expect(
-    myAccountPage.topMenuSection.myAccountMenu.hasMyAccountMenuForLoggedInUser(),
+    myAccountPage.topMenuSection.myAccountMenu.hasAllLoggedInUserLinks(),
   ).toBeTruthy();
 
   const logoutPage = await homePage.topMenuSection.myAccountMenu.doLogout();
@@ -119,7 +119,7 @@ test.skip("Validate the copying of the text entered into the Password field @mas
 
 
 
-test("Validate Logging into the Application after changing the password @master  @regression", async ({}, testInfo) => {
+test("Validate Logging into the Application after changing the password @master @sanity @regression", async ({}, testInfo) => {
   setTestCaseId(testInfo, "TC_LF_016");
 
   const registrationPage = await loginPage.newCustomerClickContinue();
@@ -164,7 +164,7 @@ test("Validate Logging into the Application after changing the password @master 
 });
 
 test.fail(
-  "Validate Logging into the Application, closing the Browser without loggingout and opening the application in the Browser again @master  @regression",
+  "Validate Logging into the Application, closing the Browser without loggingout and opening the application in the Browser again @master @regression",
   async ({ browser, page }, testInfo) => {
     setTestCaseId(testInfo, "TC_LF_017");
 
@@ -177,7 +177,7 @@ test.fail(
 
     homePage = new HomePage(newPage);
     expect(
-      await homePage.topMenuSection.myAccountMenu.hasMyAccountMenuForLoggedInUser(),
+      await homePage.topMenuSection.myAccountMenu.hasAllLoggedInUserLinks(),
     ).toBeTruthy();
   },
 );
@@ -206,7 +206,7 @@ test.skip("Validate user is able to navigate to different pages from Login page 
   //still need to verify footer contents when implemented
 });
 
-test("Validate the different ways of navigating to the Login page @master  @regression", async ({}, testInfo) => {
+test("Validate the different ways of navigating to the Login page @master  @sanity @regression", async ({}, testInfo) => {
   setTestCaseId(testInfo, "TC_LF_020");
 
   expect(loginPage.hasNewCustomerHeader()).toBeTruthy();
@@ -223,11 +223,8 @@ test("Validate the different ways of navigating to the Login page @master  @regr
 });
 
 
-test("Validate the Breadcrumb, Page Heading, Page Title and Page URL of Login page @master  @regression", async ({page}, testInfo) => {
+test("Validate the Breadcrumb, Page Heading, Page Title and Page URL of Login page @master  @sanity @regression", async ({page}, testInfo) => {
   setTestCaseId(testInfo, "TC_LF_021");
-
-
-  //1. Proper Breadcrumb, Page Heading, Page URL and Page Title should be displayed
 
   expect(loginPage.hasExpectedHeaders()).toBeTruthy();;
   expect(await page.title()).toBe(PageDetails.login.title);
@@ -242,9 +239,6 @@ test("Validate the Breadcrumb, Page Heading, Page Title and Page URL of Login pa
 });
 
 
-
-
-//Incomplete Expected Results Reference to what is expected UI
 test("Validate the UI of the Login page @master  @regression", async ({}, testInfo) => {
   setTestCaseId(testInfo, "TC_LF_022");
 });

@@ -18,7 +18,7 @@ export const PageDetails = {
   },
   registration: {
     title: "Register Account",
-    url: "index.php?route=account/registration",
+    url: "index.php?route=account/register",
     breadcrumb: ["Account", "Register"],
   },
 } as const satisfies Record<string, pageDetails>;

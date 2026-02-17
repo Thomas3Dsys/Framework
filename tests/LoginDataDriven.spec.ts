@@ -45,7 +45,7 @@ for(const data of jsonTestData)
 
         }
         else{
-            const errorMessage=await loginPage.alerts.getAlertDangerMessage();
+            const errorMessage=await loginPage.topMenuSection.alerts.getAlertDangerMessage();
             //expect(errorMessage).toBe('Warning: No match for E-Mail Address and/or Password.');
             expect(errorMessage).toContain('Warning: No match');
         }
@@ -94,7 +94,7 @@ for(const data of csvTestData)
 
         }
         else{
-            const errorMessage=await loginPage.alerts.getAlertDangerMessage();
+            const errorMessage=await loginPage.topMenuSection.alerts.getAlertDangerMessage();
             //expect(errorMessage).toBe('Warning: No match for E-Mail Address and/or Password.');
             // Warning: Your account has exceeded allowed number of login attempts. Please try again in 1 hour."
             expect(errorMessage).toContain('Warning: No match');    

@@ -22,6 +22,7 @@ export class RegistrationPage {
   private readonly buttonContinue: Locator;
   private readonly linkContinue: Locator;
   private readonly messageConfirmation: Locator;
+  private readonly mainHeader: Locator;
   private readonly radiobuttonNewsletterYes: Locator;
   private readonly radiobuttonNewsletterNo: Locator;
   private readonly pageHeader: Locator;
@@ -50,9 +51,9 @@ export class RegistrationPage {
     this.buttonContinue = page.locator('input[value="Continue"]');
     this.linkContinue = page.locator('a:has-text("Continue")');
 
-    this.messageConfirmation = page.locator(
-      '#content h1',
-    );
+    this.messageConfirmation = page.locator('#content h1:has-text("Your Account Has Been Created!")');
+    this.mainHeader = page.locator('#content h1');
+
     this.radiobuttonNewsletterYes = page.getByRole("radio", { name: "Yes" });
     this.radiobuttonNewsletterNo = page.getByRole("radio", { name: "No" });
 
@@ -268,7 +269,7 @@ export class RegistrationPage {
    * @returns Promise<string> - Confirmation message text
    */
   async getConfirmationMsg(): Promise<string> {
-    return (await this.messageConfirmation.textContent()) ?? "";
+    return (await this.mainHeader.textContent()) ?? "";
   }
 
   /**

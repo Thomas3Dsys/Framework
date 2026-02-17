@@ -10,7 +10,7 @@ let homePage: HomePage;
 let registrationPage: RegistrationPage;
 let config: TestConfig;
 
-test("Validate all the mandatory fields in the Register Account page are marked with red color * symbol @master @sanity @regression", async ({
+test("Validate all the mandatory fields in the Register Account page are marked with red color * symbol @master @regression", async ({
   browser,
 }, testInfo) => {
   setTestCaseId(testInfo, "TC_RF_014");

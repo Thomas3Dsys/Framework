@@ -47,13 +47,13 @@ export class MyAccountMenu {
     );
 
     this.linkRegister = page.locator(
-      'div#top-links ul.dropdown-menu li a:has-text("Register")',
+      'ul.dropdown-menu li a:has-text("Register")',
     );
     this.linkLogin = page.locator(
-      'div#top-links ul.dropdown-menu li a:has-text("Login")',
+      'ul.dropdown-menu li a:has-text("Login")',
     );
     this.linkLogout = page.locator(
-      'div#top-links ul.dropdown-menu li a:has-text("Logout")',
+      'ul.dropdown-menu li a:has-text("Logout")',
     );
   }
 
@@ -192,7 +192,7 @@ export class MyAccountMenu {
     return false;
   }
 
-  async hasAllLogoutLink(): Promise<boolean> {
+  async hasLogoutLink(): Promise<boolean> {
     try {
       await this.expandMyAccountDropdown();
       const hasLogout = await this.linkLogout.isVisible();

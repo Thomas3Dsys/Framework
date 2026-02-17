@@ -38,7 +38,7 @@ test.afterEach(async ({ page }) => {
   await page.close(); // Close the browser tab (helps keep tests clean)
 });
 
-test("Validate Logging out by selecting Logout option from 'My Account' dropmenu @master @regression", async ({}, testInfo) => {
+test("Validate Logging out by selecting Logout option from 'My Account' dropmenu @master @sanity @regression", async ({}, testInfo) => {
   setTestCaseId(testInfo, "TC_LG_001");
 
   expect(await myAccountPage.doesPageExist()).toBeTruthy();
@@ -54,7 +54,7 @@ test("Validate Logging out by selecting Logout option from 'My Account' dropmenu
   expect(await homePage.isHomePageExists()).toBe(true);
 });
 
-test("Validate Logging out by selecting Logout option from 'Right Column' options", async ({}, testInfo) => {
+test("Validate Logging out by selecting Logout option from 'Right Column' options @master @sanity @regression", async ({}, testInfo) => {
   setTestCaseId(testInfo, "TC_LG_002");
   expect(await myAccountPage.doesPageExist()).toBeTruthy();
   //	"1. Click on 'Logout' option from the Right Column  (Verify ER-1)
@@ -76,7 +76,7 @@ test("Validate Logging out by selecting Logout option from 'Right Column' option
 
 
 //in Playwright, the user does get logged out when the browser is closed.
-test.fail("Validate the Application session status, after logging and closing the Browser without logging out", async ({
+test.fail("Validate the Application session status, after logging and closing the Browser without logging out  @master @regression", async ({
   page,
   browser,
 }, testInfo) => {
@@ -97,7 +97,7 @@ test.fail("Validate the Application session status, after logging and closing th
     await homePage.topMenuSection.myAccountMenu.hasAllLoggedInUserLinks(),
   ).toBeTruthy();
 });
-test("Validate logging out and browsing back", async ({ page }, testInfo) => {
+test("Validate logging out and browsing back @master @regression", async ({ page }, testInfo) => {
   setTestCaseId(testInfo, "TC_LG_004");
   expect(await myAccountPage.doesPageExist()).toBeTruthy();
   //	"1. Click on 'My Account' Dropmenu
@@ -131,7 +131,7 @@ test.describe("firefox only test", () => {
   });
 }); */
 
-test("Validate logging out and loggin in immediately after logout", async ({}, testInfo) => {
+test("Validate logging out and loggin in immediately after logout @master @sanity @regression", async ({}, testInfo) => {
   setTestCaseId(testInfo, "TC_LG_008");
   expect(await myAccountPage.doesPageExist()).toBeTruthy();
   //	"1. Click on 'My Account' Dropmenu
@@ -153,7 +153,7 @@ test("Validate logging out and loggin in immediately after logout", async ({}, t
 });
 
 //Breadcrumbs not implemented yet
-test("Validate 'Account Logout' page", async ({ page }, testInfo) => {
+test("Validate 'Account Logout' page @master @sanity @regression", async ({ page }, testInfo) => {
   setTestCaseId(testInfo, "TC_LG_009");
   expect(await myAccountPage.doesPageExist()).toBeTruthy();
   logoutPage = await myAccountPage.topMenuSection.myAccountMenu.doLogout();
@@ -168,7 +168,7 @@ test("Validate 'Account Logout' page", async ({ page }, testInfo) => {
   ).toBeTruthy();
 });
 
-test("Validate the UI of the Logout option and the 'Account Logout' page", async ({}, testInfo) => {
+test("Validate the UI of the Logout option and the 'Account Logout' page @master @sanity @regression", async ({}, testInfo) => {
   setTestCaseId(testInfo, "TC_LG_010");
   expect(await myAccountPage.doesPageExist()).toBeTruthy();
   //	"1. Click on 'My Account' Dropmenu
@@ -188,7 +188,7 @@ test("Validate the UI of the Logout option and the 'Account Logout' page", async
 const browsers = ["chromium", "firefox", "webkit"] as const;
 browsers.forEach((browser, index) => {
   test.use({ browserName: browser });
-  test(`Validate the Logout functionality in all the supported environments :  ${browser}`, async ({}, testInfo) => {
+  test(`Validate the Logout functionality in all the supported environments :  ${browser}  @master @sanity @regression`, async ({}, testInfo) => {
     setTestCaseId(testInfo, "TC_LG_011");
     expect(await myAccountPage.doesPageExist()).toBeTruthy();
     //	"1. Click on 'My Account' Dropmenu
