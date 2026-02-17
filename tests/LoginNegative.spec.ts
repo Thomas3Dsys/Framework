@@ -7,7 +7,7 @@ import { LogoutPage } from "../pages/LogoutPage";
 import { setTestCaseId } from "../utils/testcaseid";
 import { Database } from "../utils/database";
 import { TopMenuSection } from "../pages/Widgets/TopMenuSection";
-import { UiMessages } from "../testdata/expectedMessages";
+import { UiMessages } from "../data/expectedMessages";
 
 let config: TestConfig;
 let homePage: HomePage;
@@ -27,7 +27,7 @@ test.beforeEach(async ({ page }) => {
 
 test.afterEach(async ({ page }) => {
   const topMenuSection = new TopMenuSection(page);
-  if (await topMenuSection.myAccountMenu.Logout()) {
+  if (await topMenuSection.myAccountMenu.tryLogout()) {
     const logoutPage = new LogoutPage(page);
     await logoutPage.waitForPageHeader();
   }
