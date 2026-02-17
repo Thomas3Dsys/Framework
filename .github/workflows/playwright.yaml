@@ -24,9 +24,6 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install
 
-      - name: Run Playwright setup
-        run: npm run test:setup
-
       - name: Run Playwright sanity tests
         run: npm run test:ci
 
