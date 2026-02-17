@@ -31,5 +31,5 @@ on:
       with:
         name: plawright-report
         path: playwright-report/
-        retention-days:30
+        retention-days: 30
 
