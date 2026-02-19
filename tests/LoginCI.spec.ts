@@ -19,16 +19,11 @@ let homePage: HomePage;
 let loginPage: LoginPage;
 let myAccountPage: MyAccountPage;
 
-
-
 test.beforeEach(async ({ page }) => {
   config = new TestConfig();
   await page.goto(config.appUrlCi);
 
   homePage = new HomePage(page);
-  loginPage = new LoginPage(page);
-  myAccountPage = new MyAccountPage(page);
-
   loginPage = await homePage.topMenuSection.myAccountMenu.navigateLogin();
   await loginPage.waitForPageHeader();
 });
@@ -45,14 +40,35 @@ test.afterEach(async ({ page }) => {
   await page.close();
 });
 
+test(`Create config Expected User @ci`, async ({ page }) => {
+  
+  const registrationPage =  await homePage.topMenuSection.myAccountMenu.navigateRegister();
+  await registrationPage.setFirstName(config.firstName);
+  await registrationPage.setLastName(config.lastName);
+  await registrationPage.setEmail(config.email);
+  await registrationPage.setTelephone(config.telephone);
+  await registrationPage.setPassword(config.password);
+  await registrationPage.setConfirmPassword(config.password);
+  await registrationPage.setPrivacyPolicy();
+  await registrationPage.clickContinueRegistration();
+
+  await page.waitForTimeout(1000);
+
+  const alertShown =
+    await registrationPage.topMenuSection.alerts.getAlertDangerMessage();
+  
+    if (alertShown?.includes(UiMessages.emailAreadyExistsWarning)) {
+        console.log("User Already Created.");
+      }
+    else{
+    //Validate the confirmation message
+    const confirmationMsg = await registrationPage.getConfirmationMsg();
+    expect(confirmationMsg).toContain("Your Account Has Been Created!");
+  }
+});
 
 test("Validate login into the Application using valid credentials @ci ", async ({}, testInfo) => {
-
-  await loginPage.setEmail(config.email);
-  await loginPage.setPassword(config.password);
-  await loginPage.clickLogin();
-
-  await myAccountPage.waitForPageHeader();
+  const myAccountPage = await loginPage.login(config.email,config.password);
   const isLoggedIn = await myAccountPage.doesPageExist();
   expect(isLoggedIn).toBeTruthy();
 });
