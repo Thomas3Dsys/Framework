@@ -311,9 +311,9 @@ Checks if the red alert messages for the input boxes are shown based on thier te
   }
 
   async clickAlreadyHaveAnAccountLoginPag(): Promise<LoginPage> {
-    this.linkAlreadyUserLoginPage.click();
+    await this.linkAlreadyUserLoginPage.click();
     const loginPage = new LoginPage(this.page);
-    loginPage.waitForPageHeader();
+    await loginPage.waitForPageHeader();
     return loginPage;
   }
 
